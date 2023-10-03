@@ -68,25 +68,18 @@ public class ClienteData {
             cliente.setDireccion(rs.getString("direccion"));
             cliente.setNombreAl(rs.getString("nombreAlternativo"));
             cliente.setTelefonoAl(rs.getInt("contactoAlternativo"));
-            cliente.setActivo(rs.getBoolean("activo"));
-            
-            
-            
+            cliente.setActivo(rs.getBoolean("activo"));  
             }
-            
-            
+                 
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al acceder :,( " + ex.getMessage());
             ex.printStackTrace();
         }
-        
-        
-    
+
     return cliente;
     }
-    
-    
-    public void bucarId(int id){
+
+    public Cliente bucarId(int id){
     
         Cliente cliente = null;
         
@@ -108,19 +101,25 @@ public class ClienteData {
             cliente.setNombreAl(rs.getString("nombreAlternativo"));
             cliente.setTelefonoAl(rs.getInt("contactoAlternativo"));
             cliente.setActivo(rs.getBoolean("activo"));
-            
-            
-            
             }
-            
-            
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al acceder :,( " + ex.getMessage());
             ex.printStackTrace();
         }
         
+    return cliente;
+    }
+    
+    public void modificar(){
+    
+    
     
     }
+    
+    
+    
+    
+    
     
 
 }
