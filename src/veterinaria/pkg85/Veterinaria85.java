@@ -5,7 +5,10 @@
 package veterinaria.pkg85;
 
 import Data.ClienteData;
+import Data.MascotaData;
 import Entidades.Cliente;
+import Entidades.Mascota;
+import java.time.LocalDate;
 
 /**
  *
@@ -17,7 +20,23 @@ public class Veterinaria85 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-
+        ClienteData cli = new ClienteData();
+        Cliente juan = cli.bucarId(10);
+        System.out.println(juan.getIdCliente());
+        Mascota perro = new Mascota("pichi","macho", "perro", "salchicha", "marron", 7, LocalDate.now(), juan, true);
+        
+        MascotaData mas=new MascotaData();
+       // cli.guardarCliente(juan);
+        mas.guardarMascota(perro);
+        
+        
+        
+        
+        
+        
+        
+        
+//-----------------------------------------------------------------------------------------------
 //        Cliente juan = new Cliente("Marcos", 555123123, "Pérez", "Av. Ocampo 1111", 12121212, " Gabriel Pérez", 23232323, true);
 //        ClienteData cli = new ClienteData();
 //          cli.eliminarCliente(9);

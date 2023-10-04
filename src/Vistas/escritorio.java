@@ -4,7 +4,7 @@
  */
 package Vistas;
 
-import com.formdev.flatlaf.FlatLightLaf;
+
 
 /**
  *
@@ -17,7 +17,7 @@ public class escritorio extends javax.swing.JFrame {
      */
     public escritorio() {
         initComponents();
-        FlatLightLaf.setup();
+        
     }
 
     /**
