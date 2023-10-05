@@ -21,13 +21,13 @@ public class Veterinaria85 {
      */
     public static void main(String[] args) {
         ClienteData cli = new ClienteData();
-        Cliente juan = cli.bucarId(10);
+        Cliente juan = new Cliente(10,"Marcos", 555123123, "Pérez", "Av. Ocampo 1111", 12121212, " Gabriel Pérez", 23232323, true);
         System.out.println(juan.getIdCliente());
-        Mascota perro = new Mascota("pichi","macho", "perro", "salchicha", "marron", 7, LocalDate.now(), juan, true);
+        Mascota perro = new Mascota(7,"pochi","macho", "perro", "labrador", "blanco", 7, LocalDate.now(), juan, true);
         
         MascotaData mas=new MascotaData();
        // cli.guardarCliente(juan);
-        mas.guardarMascota(perro);
+        mas.eliminar(perro.getIdMascota());
         
         
         

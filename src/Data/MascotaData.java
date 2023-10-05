@@ -34,7 +34,7 @@ public class MascotaData {
     
     public void guardarMascota(Mascota mascota) {
         String sql = " INSERT INTO `mascota`(`alias`, `sexo`, `especie`, `raza`, `colorPelo`, `pesoPromedio`,"
-                + " `fechaNac`, `idCliente`, `activo`) VALUES ('?','?','?','?','?','?','?','?','?')";
+                + " `fechaNac`, `idCliente`, `activo`) VALUES (?,?,?,?,?,?,?,?,?)";
         
         try (PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
             
@@ -141,8 +141,8 @@ public class MascotaData {
     
     public void modificar(Mascota mascota) {
         
-        String sql = "UPDATE `mascota` SET `alias`='?',`sexo`='?',`especie`='?',`raza`='?',`colorPelo`='?',"
-                + "`pesoPromedio`=?,`fechaNac`='?',`idCliente`='?',`activo`='?' WHERE idMascota = ?;";
+        String sql = "UPDATE `mascota` SET `alias`=?,`sexo`=?,`especie`=?,`raza`=?,`colorPelo`=?,"
+                + "`pesoPromedio`=?,`fechaNac`=?,`idCliente`=?,`activo`=? WHERE idMascota = ?;";
         
         try (PreparedStatement ps = con.prepareStatement(sql);) {
             ps.setString(1, mascota.getAlias());
@@ -152,7 +152,7 @@ public class MascotaData {
             ps.setString(5, mascota.getColorPelo());
             ps.setDouble(6, mascota.getPesoPromedio());
             ps.setDate(7, Date.valueOf(mascota.getFechaN()));
-            ps.setInt(8, mascota.getIdMascota());
+            ps.setInt(8, mascota.getCliente().getIdCliente());
             ps.setBoolean(9, mascota.isActivo());
             ps.setInt(10, mascota.getIdMascota());
             int exito = ps.executeUpdate();
