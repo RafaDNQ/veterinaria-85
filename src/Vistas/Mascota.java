@@ -148,7 +148,7 @@ public class Mascota extends javax.swing.JInternalFrame {
         jbEliminar.setText("ELIMINAR");
 
         jbNuevo.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jbNuevo.setText("NUEVO");
+        jbNuevo.setText("Limpiar");
         jbNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbNuevoActionPerformed(evt);
@@ -277,7 +277,9 @@ public class Mascota extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
-        // TODO add your handling code here:
+        limpiarCampos();
+        jbGuardar.setEnabled(true);
+
     }//GEN-LAST:event_jbNuevoActionPerformed
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
@@ -318,4 +320,18 @@ public class Mascota extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jtSexo;
     private javax.swing.JTextField jtTratamiento;
     // End of variables declaration//GEN-END:variables
+private void limpiarCampos() {
+
+        jtAlias.setText("");
+        jtAreaDetalle.setText("");
+        jtColor.setText("");
+        jtEspecie.setText("");
+        jtIdMascota.setText("");
+        jtPesoPromedio.setText("");
+        jtRaza.setText("");
+        jtSexo.setText("");
+        jtTratamiento.setText("");
+
+    }
+
 }

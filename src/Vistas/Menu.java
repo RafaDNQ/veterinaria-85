@@ -1,11 +1,10 @@
-
 package Vistas;
 
 public class Menu extends javax.swing.JFrame {
 
     public Menu() {
         initComponents();
-        this.setLocationRelativeTo(null); 
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -48,6 +47,11 @@ public class Menu extends javax.swing.JFrame {
 
         Mascota.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         Mascota.setText("Cliente");
+        Mascota.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MascotaActionPerformed(evt);
+            }
+        });
         jMenu1.add(Mascota);
 
         jMenuItem3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -97,8 +101,17 @@ public class Menu extends javax.swing.JFrame {
         Visita visit = new Visita();
         visit.setVisible(true);
         escritorio.add(visit);
-        escritorio.moveToFront(visit);     
+        escritorio.moveToFront(visit);
     }//GEN-LAST:event_VisitaActionPerformed
+
+    private void MascotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MascotaActionPerformed
+        escritorio.removeAll();
+        escritorio.repaint();
+        crearCliente visit = new crearCliente();
+        visit.setVisible(true);
+        escritorio.add(visit);
+        escritorio.moveToFront(visit);
+    }//GEN-LAST:event_MascotaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -139,7 +152,7 @@ public class Menu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Mascota;
     private javax.swing.JMenuItem Visita;
-    private javax.swing.JDesktopPane escritorio;
+    public static javax.swing.JDesktopPane escritorio;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
