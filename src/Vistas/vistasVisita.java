@@ -3,7 +3,7 @@ package Vistas;
 
 import javax.swing.table.DefaultTableModel;
 
-public class Visita extends javax.swing.JInternalFrame {
+public class vistasVisita extends javax.swing.JInternalFrame {
 private DefaultTableModel modelo = new DefaultTableModel(){
   
     public boolean isCellEditable(int f, int c) {
@@ -12,7 +12,7 @@ private DefaultTableModel modelo = new DefaultTableModel(){
 };
 
 
-    public Visita() {
+    public vistasVisita() {
         initComponents();
         armarCabecera();
     }

@@ -56,6 +56,11 @@ public class Menu extends javax.swing.JFrame {
 
         jMenuItem3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jMenuItem3.setText("Mascota");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem3);
 
         jMenuBar1.add(jMenu1);
@@ -98,7 +103,7 @@ public class Menu extends javax.swing.JFrame {
         // TODO add your handling code here:        
         escritorio.removeAll();
         escritorio.repaint();
-        Visita visit = new Visita();
+        vistasVisita visit = new vistasVisita();
         visit.setVisible(true);
         escritorio.add(visit);
         escritorio.moveToFront(visit);
@@ -112,6 +117,19 @@ public class Menu extends javax.swing.JFrame {
         escritorio.add(visit);
         escritorio.moveToFront(visit);
     }//GEN-LAST:event_MascotaActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+         escritorio.removeAll();
+        escritorio.repaint();
+        vistasMascota visit = new vistasMascota();
+        visit.setVisible(true);
+        escritorio.add(visit);
+        escritorio.moveToFront(visit);
+        
+        
+        
+         
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments

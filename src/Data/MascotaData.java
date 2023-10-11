@@ -64,10 +64,10 @@ public class MascotaData {
     }
 // Quizas lo tenemos que mover
 
-    public List<Mascota> buscarMascotaPIdCliente(int id) {
+    public ArrayList<Mascota> buscarMascotaPIdCliente(int id) {
         List<Mascota> listaMascota = new ArrayList<>();
         
-        String sql = "SELECT * FROM `mascota` WHERE idCliente = ?";
+        String sql = "SELECT * FROM `mascota` WHERE idCliente = ? AND activo = 1";
         Mascota mascota = null;
         Cliente cliente = datacliente.bucarId(id);
         try (PreparedStatement ps = con.prepareStatement(sql);) {
@@ -82,7 +82,7 @@ public class MascotaData {
                     mascota.setAlias(rs.getString("alias"));
                     mascota.setColorPelo(rs.getString("colorPelo"));
                     mascota.setEspecie(rs.getString("especie"));
-                    mascota.setFechaN(rs.getDate("fechaN").toLocalDate());
+                    mascota.setFechaN(rs.getDate("fechaNac").toLocalDate());
                     mascota.setIdMascota(rs.getInt("idMascota"));
                     mascota.setPesoPromedio(rs.getDouble("pesoPromedio"));
                     mascota.setRaza(rs.getString("raza"));
@@ -98,9 +98,11 @@ public class MascotaData {
             JOptionPane.showMessageDialog(null, "Error sql buscarIdCliente mascota");
             ex.printStackTrace();
         }
-        return listaMascota;
+        return (ArrayList<Mascota>) listaMascota;
         
     }    
+    
+    
     
     public Mascota buscarMascotaid(int id) {
         

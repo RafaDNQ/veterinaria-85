@@ -5,17 +5,37 @@
  */
 package Vistas;
 
+import Data.ClienteData;
+import Data.MascotaData;
+import Entidades.Cliente;
+import Entidades.Mascota;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author mlore_uqkfsdp
  */
-public class Mascota extends javax.swing.JInternalFrame {
+public class vistasMascota extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form Mascota
-     */
-    public Mascota() {
+    ClienteData clidata = new ClienteData();
+    MascotaData masdata = new MascotaData();
+
+    public vistasMascota() {
         initComponents();
+    }
+
+    private void cargarcombo() {
+        Cliente cli = clidata.buscarDni(Integer.parseInt(jtDniC.getText()));
+        int cid = cli.getIdCliente();
+        if (cli != null) {
+            ArrayList<Mascota> listmascota = new ArrayList<>(masdata.buscarMascotaPIdCliente(cid));
+            for (Mascota m : listmascota) {
+                jcAlias.addItem(m);
+            }
+
+        }
     }
 
     /**
@@ -42,18 +62,22 @@ public class Mascota extends javax.swing.JInternalFrame {
         jtTratamiento = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtAreaDetalle = new javax.swing.JTextArea();
-        jtAlias = new javax.swing.JTextField();
+        jbBuscar = new javax.swing.JButton();
+        jbNuevo = new javax.swing.JButton();
+        jbGuardar = new javax.swing.JButton();
+        jbEliminar = new javax.swing.JButton();
         jtIdMascota = new javax.swing.JTextField();
         jtSexo = new javax.swing.JTextField();
         jtEspecie = new javax.swing.JTextField();
         jtRaza = new javax.swing.JTextField();
         jtPesoPromedio = new javax.swing.JTextField();
         jtColor = new javax.swing.JTextField();
-        jbEliminar = new javax.swing.JButton();
-        jbNuevo = new javax.swing.JButton();
-        jbGuardar = new javax.swing.JButton();
-        jbBuscar = new javax.swing.JButton();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jdFechaN = new com.toedter.calendar.JDateChooser();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jcAlias = new javax.swing.JComboBox<>();
+        jtDniC = new javax.swing.JTextField();
+        jtIdc = new javax.swing.JTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -96,56 +120,13 @@ public class Mascota extends javax.swing.JInternalFrame {
         jtAreaDetalle.setRows(5);
         jScrollPane1.setViewportView(jtAreaDetalle);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel12)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 690, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel11)
-                        .addGap(18, 18, 18)
-                        .addComponent(jtTratamiento, javax.swing.GroupLayout.PREFERRED_SIZE, 585, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(29, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(jtTratamiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel12))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(16, Short.MAX_VALUE))
-        );
-
-        jtAlias.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-
-        jtIdMascota.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-
-        jtSexo.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-
-        jtEspecie.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-
-        jtRaza.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-
-        jtPesoPromedio.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-
-        jtColor.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-
-        jbEliminar.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jbEliminar.setText("ELIMINAR");
+        jbBuscar.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jbBuscar.setText("BUSCAR");
+        jbBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbBuscarActionPerformed(evt);
+            }
+        });
 
         jbNuevo.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jbNuevo.setText("Limpiar");
@@ -163,13 +144,85 @@ public class Mascota extends javax.swing.JInternalFrame {
             }
         });
 
-        jbBuscar.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jbBuscar.setText("BUSCAR");
-        jbBuscar.addActionListener(new java.awt.event.ActionListener() {
+        jbEliminar.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jbEliminar.setText("ELIMINAR");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel12)
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 690, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel11)
+                                .addGap(18, 18, 18)
+                                .addComponent(jtTratamiento, javax.swing.GroupLayout.PREFERRED_SIZE, 585, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jbBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jbNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jbGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jbEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(29, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(jtTratamiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel12))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbBuscar)
+                    .addComponent(jbNuevo)
+                    .addComponent(jbGuardar)
+                    .addComponent(jbEliminar))
+                .addGap(38, 38, 38))
+        );
+
+        jtIdMascota.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+
+        jtSexo.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+
+        jtEspecie.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+
+        jtRaza.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+
+        jtPesoPromedio.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+
+        jtColor.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+
+        jLabel3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel3.setText("DNI Cliente: ");
+
+        jLabel7.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel7.setText("ID Cliente: ");
+
+        jcAlias.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbBuscarActionPerformed(evt);
+                jcAliasActionPerformed(evt);
             }
         });
+
+        jtIdc.setEditable(false);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -177,8 +230,8 @@ public class Mascota extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel8)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,17 +239,21 @@ public class Mascota extends javax.swing.JInternalFrame {
                             .addComponent(jLabel4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jtAlias, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
                             .addComponent(jtSexo)
                             .addComponent(jtEspecie)
-                            .addComponent(jtColor)))
-                    .addComponent(jLabel6))
+                            .addComponent(jtColor, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
+                            .addComponent(jcAlias, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jLabel6)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtDniC, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)))
                 .addGap(43, 43, 43)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jtRaza, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel9)
                                 .addGap(18, 18, 18)
@@ -207,36 +264,36 @@ public class Mascota extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel10))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jtIdMascota, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
-                                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                                    .addComponent(jtIdMascota)
+                                    .addComponent(jdFechaN, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jtIdc)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(52, 52, 52)
-                .addComponent(jbEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jbNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(88, 88, 88)
-                .addComponent(jbGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(83, 83, 83)
-                .addComponent(jbBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addContainerGap(30, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel3)
+                    .addComponent(jtDniC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtIdc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
-                    .addComponent(jtAlias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtIdMascota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtIdMascota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcAlias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(19, 19, 19)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel4)
                         .addComponent(jLabel10)
                         .addComponent(jtSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jdFechaN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -249,15 +306,8 @@ public class Mascota extends javax.swing.JInternalFrame {
                     .addComponent(jLabel9)
                     .addComponent(jtPesoPromedio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jtColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbEliminar)
-                    .addComponent(jbNuevo)
-                    .addComponent(jbGuardar)
-                    .addComponent(jbBuscar))
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -269,8 +319,8 @@ public class Mascota extends javax.swing.JInternalFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -283,24 +333,55 @@ public class Mascota extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbNuevoActionPerformed
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
-        // TODO add your handling code here:
+        
+        
+        
+        
+        
+        
     }//GEN-LAST:event_jbGuardarActionPerformed
 
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
-        // TODO add your handling code here:
+
+        int dni = Integer.parseInt(jtDniC.getText());
+
+        Cliente cli = clidata.buscarDni(dni);
+        if (cli != null) {
+            jtIdc.setText("" + cli.getIdCliente());
+            cargarcombo();
+
+        }
+
+
     }//GEN-LAST:event_jbBuscarActionPerformed
+
+    private void jcAliasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcAliasActionPerformed
+
+        Mascota mascota = (Mascota) jcAlias.getSelectedItem();
+        if (mascota != null) {
+            jtIdMascota.setText("" + mascota.getIdMascota());
+            jtSexo.setText(mascota.getSexo());
+            jtEspecie.setText(mascota.getEspecie());
+            jtColor.setText(mascota.getColorPelo());
+            jtRaza.setText(mascota.getRaza());
+            jtPesoPromedio.setText("" + mascota.getPesoPromedio());
+            jdFechaN.setDate(Date.valueOf(mascota.getFechaN()));
+
+        }
+    }//GEN-LAST:event_jcAliasActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -310,11 +391,14 @@ public class Mascota extends javax.swing.JInternalFrame {
     private javax.swing.JButton jbEliminar;
     private javax.swing.JButton jbGuardar;
     private javax.swing.JButton jbNuevo;
-    private javax.swing.JTextField jtAlias;
+    private javax.swing.JComboBox<Mascota> jcAlias;
+    private com.toedter.calendar.JDateChooser jdFechaN;
     private javax.swing.JTextArea jtAreaDetalle;
     private javax.swing.JTextField jtColor;
+    private javax.swing.JTextField jtDniC;
     private javax.swing.JTextField jtEspecie;
     private javax.swing.JTextField jtIdMascota;
+    private javax.swing.JTextField jtIdc;
     private javax.swing.JTextField jtPesoPromedio;
     private javax.swing.JTextField jtRaza;
     private javax.swing.JTextField jtSexo;
@@ -322,7 +406,6 @@ public class Mascota extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 private void limpiarCampos() {
 
-        jtAlias.setText("");
         jtAreaDetalle.setText("");
         jtColor.setText("");
         jtEspecie.setText("");
@@ -331,6 +414,10 @@ private void limpiarCampos() {
         jtRaza.setText("");
         jtSexo.setText("");
         jtTratamiento.setText("");
+        jtIdc.setText("");
+        jdFechaN.setDate(null);
+        jtDniC.setText("");
+        jcAlias.removeAllItems();
 
     }
 
