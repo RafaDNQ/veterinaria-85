@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -96,27 +97,45 @@ public class TratamientoData {
         }
         return trata;
     }
-    
-    public void eliminar(int id){
-    String sql ="UPDATE `tratamiento` SET `activo`=0 WHERE idTratamiento =?";
-    try (PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
-    
-         ps.setInt(1, id);
-        int exito = ps.executeUpdate();
+
+    public void eliminar(int id) {
+        String sql = "UPDATE `tratamiento` SET `activo`=0 WHERE idTratamiento =?";
+        try (PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
+
+            ps.setInt(1, id);
+            int exito = ps.executeUpdate();
             if (exito == 1) {
                 JOptionPane.showMessageDialog(null, "tratamiento eliminado");
             }
-        
-        
-    }   catch (SQLException ex) {
-           JOptionPane.showMessageDialog(null, "Error sql eliminar trata :,( " + ex.getMessage());
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error sql eliminar trata :,( " + ex.getMessage());
             ex.printStackTrace();
         }
-    
-    
+
     }
-    
-    
-    
+
+    public ArrayList<Tratamiento> ListaTrata() {
+        Tratamiento trata;
+        ArrayList<Tratamiento> tra = new ArrayList<>();
+        String sql = "SELECT * FROM `tratamiento` WHERE activo = 1";
+        try (PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+               trata =new Tratamiento();
+               trata.setActivo(rs.getBoolean("activo"));
+               trata.setDescripcion(rs.getString("descripcion"));
+               trata.setIdTratamiento(rs.getInt("idTratamiento"));
+               trata.setTipoTratamiento(rs.getString("tipoTratamiento"));
+               trata.setInporte(rs.getDouble("importe"));
+               tra.add(trata);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TratamientoData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return tra;
+    }
 
 }

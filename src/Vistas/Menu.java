@@ -70,6 +70,11 @@ public class Menu extends javax.swing.JFrame {
 
         jMenuItem1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jMenuItem1.setText("Tratamientos");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem1);
 
         Visita.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -130,6 +135,17 @@ public class Menu extends javax.swing.JFrame {
         
          
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        escritorio.removeAll();
+        escritorio.repaint();
+        crearTratamientos visit = new crearTratamientos();
+        visit.setVisible(true);
+        escritorio.add(visit);
+        escritorio.moveToFront(visit);
+        
+        
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments

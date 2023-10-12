@@ -67,7 +67,7 @@ public class MascotaData {
     public ArrayList<Mascota> buscarMascotaPIdCliente(int id) {
         List<Mascota> listaMascota = new ArrayList<>();
         
-        String sql = "SELECT * FROM `mascota` WHERE idCliente = ? AND activo = 1";
+        String sql = "SELECT * FROM `mascota` WHERE idCliente = ?";
         Mascota mascota = null;
         Cliente cliente = datacliente.bucarId(id);
         try (PreparedStatement ps = con.prepareStatement(sql);) {
