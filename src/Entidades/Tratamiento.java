@@ -69,8 +69,10 @@ public class Tratamiento {
 
     @Override
     public String toString() {
-        return "Tratamiento{" + "tipoTratamiento=" + tipoTratamiento + ", descripcion=" + descripcion + '}';
+        return "Tratamiento{" + "idTratamiento=" + idTratamiento + ", tipoTratamiento=" + tipoTratamiento + ", descripcion=" + descripcion + ", inporte=" + inporte + ", activo=" + activo + '}';
     }
+
+   
     
     
     

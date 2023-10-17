@@ -81,7 +81,6 @@ public class vistasMascota extends javax.swing.JInternalFrame {
         jtRaza = new javax.swing.JTextField();
         jtPesoPromedio = new javax.swing.JTextField();
         jtColor = new javax.swing.JTextField();
-        jdFechaN = new com.toedter.calendar.JDateChooser();
         jLabel3 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jcAlias = new javax.swing.JComboBox<>();
@@ -91,6 +90,7 @@ public class vistasMascota extends javax.swing.JInternalFrame {
         jtAlias = new javax.swing.JTextField();
         jrActivo = new javax.swing.JRadioButton();
         jrInactivo = new javax.swing.JRadioButton();
+        jdFechaN = new com.toedter.calendar.JDateChooser();
 
         setClosable(true);
         setIconifiable(true);
@@ -314,10 +314,13 @@ public class vistasMascota extends javax.swing.JInternalFrame {
                                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addComponent(jLabel2)
                                         .addComponent(jLabel10))
-                                    .addGap(18, 18, 18)
-                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jtIdM)
-                                        .addComponent(jdFechaN, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addGap(18, 18, 18)
+                                            .addComponent(jtIdM, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addGap(28, 28, 28)
+                                            .addComponent(jdFechaN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addGroup(jPanel2Layout.createSequentialGroup()
                                     .addComponent(jLabel7)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -342,14 +345,14 @@ public class vistasMascota extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(19, 19, 19)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel10)
-                            .addComponent(jdFechaN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel10))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel13)
-                            .addComponent(jtAlias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel13)
+                                .addComponent(jtAlias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jdFechaN, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
