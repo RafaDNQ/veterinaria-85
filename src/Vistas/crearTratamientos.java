@@ -15,44 +15,43 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
-
 /**
  *
  * @author Usuario
  */
 public class crearTratamientos extends javax.swing.JInternalFrame {
-    Tratamiento aux=new Tratamiento();
-    boolean bloquearSeleccion=false;
+
+    Tratamiento aux = new Tratamiento();
+    boolean bloquearSeleccion = false;
     TratamientoData tradata = new TratamientoData();
-     DefaultTableModel modelo = new DefaultTableModel(){
-         @Override
-         public boolean isCellEditable(int row,int column){
-             if(bloquearSeleccion){
-                 int ultimaFila=jtTabla.getRowCount()-1;
-                 int idColumna=0;
-                 return column>idColumna && ultimaFila==row;
-             }
-             return column>0;
-         }
-     };
-    
+    DefaultTableModel modelo = new DefaultTableModel() {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            if (bloquearSeleccion) {
+                int ultimaFila = jtTabla.getRowCount() - 1;
+                int idColumna = 0;
+                return column > idColumna && ultimaFila == row;
+            }
+            return column > 0;
+        }
+    };
+
     public crearTratamientos() {
         initComponents();
         setClosable(true);
-         CargarTabla();
-         CargarTratamientos();
-         jtTabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-         
-         
-         //Evento para manejar la tabla
-        jtTabla.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+        CargarTabla();
+        CargarTratamientos();
+        jtTabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        //Evento para manejar la tabla
+        jtTabla.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                if(!e.getValueIsAdjusting()){
-                    
-                    try{
-                        if(bloquearSeleccion){
-                            jtTabla.getSelectionModel().setSelectionInterval(jtTabla.getRowCount()-1,jtTabla.getRowCount()-1);
+                if (!e.getValueIsAdjusting()) {
+
+                    try {
+                        if (bloquearSeleccion) {
+                            jtTabla.getSelectionModel().setSelectionInterval(jtTabla.getRowCount() - 1, jtTabla.getRowCount() - 1);
                         }
 //                        
 //                    int fila=jtTabla.getSelectedRow();
@@ -89,25 +88,20 @@ public class crearTratamientos extends javax.swing.JInternalFrame {
 //                        
 //                    }     
 
-                    
-                    }catch(NullPointerException ex){
-                        
-                        JOptionPane.showMessageDialog(null,"Ha ocurrido puntero vacio","NullPointerException",JOptionPane.ERROR_MESSAGE);
-                        
-                        
-                    }catch(RuntimeException ex){
-                        
-                        JOptionPane.showMessageDialog(null,"Debe completar los campos","form",JOptionPane.WARNING_MESSAGE);
+                    } catch (NullPointerException ex) {
+
+                        JOptionPane.showMessageDialog(null, "Ha ocurrido puntero vacio", "NullPointerException", JOptionPane.ERROR_MESSAGE);
+
+                    } catch (RuntimeException ex) {
+
+                        JOptionPane.showMessageDialog(null, "Debe completar los campos", "form", JOptionPane.WARNING_MESSAGE);
                     }
-                    
-                    
-                    
-                    
+
                 }
             }
-        
+
         });
-        
+
         jtTabla.getModel().addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {
@@ -126,26 +120,25 @@ public class crearTratamientos extends javax.swing.JInternalFrame {
                                     aux.setDescripcion((String) obj);
                                     break;
                                 default:
-                                    Double importe=Double.parseDouble((String)obj);
+                                    Double importe = Double.parseDouble((String) obj);
                                     aux.setInporte(importe);
                                     break;
                             }
 
                         }
-                        boolean validacion=aux.getInporte()>0 && !aux.getDescripcion().isEmpty() && !aux.getDescripcion().isEmpty();
-                        if(validacion){
+                        boolean validacion = aux.getInporte() > 0 && !aux.getDescripcion().isEmpty() && !aux.getDescripcion().isEmpty();
+                        if (validacion) {
                             System.out.println(aux);
-                            int opc=JOptionPane.showConfirmDialog(null,"Desea insertar estos datos?Y/N","Confirmacion",JOptionPane.YES_NO_CANCEL_OPTION);
-                            if(opc==0){
+                            int opc = JOptionPane.showConfirmDialog(null, "Desea insertar estos datos?Y/N", "Confirmacion", JOptionPane.YES_NO_CANCEL_OPTION);
+                            if (opc == 0) {
                                 aux.setActivo(true);
-                                tradata.guardarTratamiento(aux);
-                                bloquearSeleccion=false;
+                                tradata.guardarTratamiento(aux);   
                                 limpiarTabla();
                                 CargarTratamientos();
-                                aux=null;
+                                bloquearSeleccion = false;
+                                aux = null;
                                 jtTabla.clearSelection();
-                                
-                                
+
                             }
                         }
 
@@ -159,8 +152,8 @@ public class crearTratamientos extends javax.swing.JInternalFrame {
 
         });
 
-         
     }
+
     private void CargarTabla() {
         modelo.addColumn("ID");
         modelo.addColumn("Tipo Tratamiento");
@@ -169,21 +162,21 @@ public class crearTratamientos extends javax.swing.JInternalFrame {
         jtTabla.setModel(modelo);
 
     }
-    private void CargarTratamientos(){
-    ArrayList<Tratamiento> listaTratamientos = tradata.ListaTrata();
-    for(Tratamiento t:listaTratamientos){
-        modelo.addRow(new Object[]{
-            t.getIdTratamiento(),
-            t.getTipoTratamiento(),
-            t.getDescripcion(),
-            t.getInporte()       
-        });
-    
-    }
-    
+
+    private void CargarTratamientos() {
+        ArrayList<Tratamiento> listaTratamientos = tradata.ListaTrata();
+        for (Tratamiento t : listaTratamientos) {
+            modelo.addRow(new Object[]{
+                t.getIdTratamiento(),
+                t.getTipoTratamiento(),
+                t.getDescripcion(),
+                t.getInporte()
+            });
+
+        }
+
     }
 
-   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -285,40 +278,41 @@ public class crearTratamientos extends javax.swing.JInternalFrame {
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
 
+        jbNuevo.setEnabled(true);
+        jbEliminar.setEnabled(true);
+        
     }//GEN-LAST:event_jbGuardarActionPerformed
 
     private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
-       modelo.addRow(new Object[]{});
-       jbNuevo.setEnabled(false);
-       jbEliminar.setEnabled(false);
-       
-        
-      
-       
+        modelo.addRow(new Object[]{});
+        jbNuevo.setEnabled(false);
+        jbEliminar.setEnabled(false);
+
+
     }//GEN-LAST:event_jbNuevoActionPerformed
 
     private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
         // TODO add your handling code here:
-            Tratamiento auxiliar=obtenerTramiento(true);
-            if(auxiliar!=null){
-                tradata.eliminar(auxiliar.getIdTratamiento());
-                limpiarTabla();
-                CargarTratamientos();
-                jtTabla.clearSelection();
-            }else{
-                JOptionPane.showMessageDialog(null,"No se puede borrar este elemento","Ups",JOptionPane.WARNING_MESSAGE);
-            }
-            
-        
+        Tratamiento auxiliar = obtenerTramiento(true);
+        if (auxiliar != null) {
+            tradata.eliminar(auxiliar.getIdTratamiento());
+            limpiarTabla();
+            CargarTratamientos();
+            jtTabla.clearSelection();
+        } else {
+            JOptionPane.showMessageDialog(null, "No se puede borrar este elemento", "Ups", JOptionPane.WARNING_MESSAGE);
+        }
+
+
     }//GEN-LAST:event_jbEliminarActionPerformed
 
-    private void limpiarTabla(){
-         int filas = modelo.getRowCount() - 1;
+    private void limpiarTabla() {
+        int filas = modelo.getRowCount() - 1;
         for (int i = filas; i >= 0; i--) {
             modelo.removeRow(i);
 
         }
-        
+
     }
 
     private Tratamiento obtenerTramiento(boolean id) {
@@ -329,7 +323,7 @@ public class crearTratamientos extends javax.swing.JInternalFrame {
             int columna = jtTabla.getSelectedColumn();
             if (fila != -1 && columna != -1) {
 
-                for (int columnas=val ; columnas < jtTabla.getColumnCount(); columnas++) {
+                for (int columnas = val; columnas < jtTabla.getColumnCount(); columnas++) {
                     Object obj = jtTabla.getValueAt(fila, columnas);
 //                    if (obj == null) {
 //                        throw new RuntimeException("El objeto es nulo");
@@ -351,13 +345,13 @@ public class crearTratamientos extends javax.swing.JInternalFrame {
 
                 }
 
-            }else{
-                  JOptionPane.showMessageDialog(null,"No ha seleccionado ningun elemento","error",JOptionPane.WARNING_MESSAGE);
-                
+            } else {
+                JOptionPane.showMessageDialog(null, "No ha seleccionado ningun elemento", "error", JOptionPane.WARNING_MESSAGE);
+
             }
 
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null,"Ha ocurrido un error"+ex.getMessage(), "Info", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error" + ex.getMessage(), "Info", JOptionPane.WARNING_MESSAGE);
         }
         return auxiliar;
     }
@@ -371,7 +365,5 @@ public class crearTratamientos extends javax.swing.JInternalFrame {
     private javax.swing.JButton jbNuevo;
     private javax.swing.JTable jtTabla;
     // End of variables declaration//GEN-END:variables
-
-   
 
 }

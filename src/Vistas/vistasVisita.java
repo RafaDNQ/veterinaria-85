@@ -1,6 +1,14 @@
 
 package Vistas;
 
+import Data.ClienteData;
+import Data.MascotaData;
+import Entidades.Cliente;
+import Entidades.Mascota;
+import Entidades.Tratamiento;
+import java.util.ArrayList;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class vistasVisita extends javax.swing.JInternalFrame {
@@ -11,7 +19,8 @@ private DefaultTableModel modelo = new DefaultTableModel(){
     }
 };
 
-
+ClienteData clidata = new ClienteData();
+MascotaData masdata = new MascotaData();
     public vistasVisita() {
         initComponents();
         armarCabecera();
@@ -29,8 +38,6 @@ private DefaultTableModel modelo = new DefaultTableModel(){
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jbBuscar = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jtDni = new javax.swing.JTextField();
         jtIdCliente = new javax.swing.JTextField();
@@ -40,6 +47,8 @@ private DefaultTableModel modelo = new DefaultTableModel(){
         jTMascotas = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         jbConsulta = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -57,22 +66,12 @@ private DefaultTableModel modelo = new DefaultTableModel(){
             }
         });
 
-        jTextField1.setFont(new java.awt.Font("Dialog", 0, 20)); // NOI18N
-        jTextField1.setText("Apellido:");
-
-        jTextField2.setFont(new java.awt.Font("Dialog", 0, 20)); // NOI18N
-        jTextField2.setText("Nombre");
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
-
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
         jLabel2.setText("ID-Cliente:");
 
         jtDni.setFont(new java.awt.Font("Dialog", 0, 20)); // NOI18N
 
+        jtIdCliente.setEditable(false);
         jtIdCliente.setFont(new java.awt.Font("Dialog", 0, 20)); // NOI18N
 
         jtNombre.setFont(new java.awt.Font("Dialog", 0, 20)); // NOI18N
@@ -103,6 +102,12 @@ private DefaultTableModel modelo = new DefaultTableModel(){
             }
         });
 
+        jLabel4.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
+        jLabel4.setText("Apellido:");
+
+        jLabel5.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
+        jLabel5.setText("Nombre:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -112,34 +117,33 @@ private DefaultTableModel modelo = new DefaultTableModel(){
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel3)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jtDni, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                                        .addComponent(jtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jbBuscar))))
-                            .addComponent(jScrollPane1)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jbConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(8, 8, 8)))
+                        .addGap(8, 8, 8))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jtDni, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(27, 27, 27)
+                                .addComponent(jbBuscar))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING))
                 .addGap(18, 18, 18))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
@@ -159,16 +163,16 @@ private DefaultTableModel modelo = new DefaultTableModel(){
                     .addComponent(jLabel2))
                 .addGap(22, 22, 22)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
                 .addGap(32, 32, 32)
                 .addComponent(jLabel1)
                 .addGap(31, 31, 31)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jbConsulta)
-                .addContainerGap(9, Short.MAX_VALUE))
+                .addContainerGap(132, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(95, 95, 95)
@@ -191,12 +195,34 @@ private DefaultTableModel modelo = new DefaultTableModel(){
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
-        // TODO add your handling code here:
+      limpiarTabla();
+        Cliente cli = clidata.buscarDni(Integer.parseInt(jtDni.getText()));
+        if(cli !=null){
+        jtIdCliente.setText(""+cli.getIdCliente());
+        jtApellido.setText(cli.getApellido());
+        jtNombre.setText(cli.getNombre());
+        CargarMascotas(cli.getIdCliente());
+        
+        
+        }else{
+        int opc = JOptionPane.showConfirmDialog(null, "el Cliente no existe desea crear uno nuevo? Y/N", "Confirmacion", JOptionPane.YES_NO_CANCEL_OPTION);
+        if(opc==0){
+        visitasClienteNuevo ventana = new visitasClienteNuevo();
+        ventana.setVisible(true);
+        
+        ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        }else{
+        jtIdCliente.setText("");
+        jtApellido.setText("");
+        jtNombre.setText("");
+        jtDni.setText("");
+        
+        }
+        }
+        
+        
+        
     }//GEN-LAST:event_jbBuscarActionPerformed
-
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jbConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConsultaActionPerformed
         // TODO add your handling code here:
@@ -207,15 +233,15 @@ private DefaultTableModel modelo = new DefaultTableModel(){
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTMascotas;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JButton jbBuscar;
     private javax.swing.JButton jbConsulta;
     private javax.swing.JTextField jtApellido;
-    private javax.swing.JTextField jtDni;
+    private static javax.swing.JTextField jtDni;
     private javax.swing.JTextField jtIdCliente;
     private javax.swing.JTextField jtNombre;
     // End of variables declaration//GEN-END:variables
@@ -231,4 +257,32 @@ private DefaultTableModel modelo = new DefaultTableModel(){
         
         
     }
+    public static int dni(){
+    
+    return Integer.parseInt(jtDni.getText());
+    }
+    private void CargarMascotas(int idc) {
+        ArrayList<Mascota> listaTratamientos = masdata.buscarMascotaPIdCliente(idc);
+        for (Mascota t : listaTratamientos) {
+            modelo.addRow(new Object[]{
+                t.getIdMascota(),
+                t.getAlias(),
+                t.getSexo(),
+                t.getEspecie(),
+                t.getRaza()
+            });
+
+        }
+
+    }
+    private void limpiarTabla() {
+        int filas = modelo.getRowCount() - 1;
+        for (int i = filas; i >= 0; i--) {
+            modelo.removeRow(i);
+
+        }
+
+    }
+    
+    
 }
