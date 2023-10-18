@@ -20,6 +20,9 @@ public class ClienteData {
 
         con = Conexion.getConexion();
     }
+     public void setterconexion (){
+    con = null;
+    }
 
     public void guardarCliente(Cliente cliente) {
 

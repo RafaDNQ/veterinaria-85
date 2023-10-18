@@ -1,4 +1,3 @@
-
 package Vistas;
 
 import Data.ClienteData;
@@ -9,21 +8,38 @@ import Entidades.Tratamiento;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 public class vistasVisita extends javax.swing.JInternalFrame {
-private DefaultTableModel modelo = new DefaultTableModel(){
-  
-    public boolean isCellEditable(int f, int c) {
-        return false;
-    }
-};
 
-ClienteData clidata = new ClienteData();
-MascotaData masdata = new MascotaData();
+    private DefaultTableModel modelo = new DefaultTableModel() {
+
+        public boolean isCellEditable(int f, int c) {
+            return false;
+        }
+    };
+
+    ClienteData clidata = new ClienteData();
+    MascotaData masdata = new MascotaData();
+    private static int idMascota;
+
     public vistasVisita() {
         initComponents();
         armarCabecera();
+        jtTabla.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+
+                    int fila = jtTabla.getSelectedRow();
+                    idMascota = (Integer) jtTabla.getValueAt(fila, 0);
+                    
+                }
+            }
+
+        });
     }
 
     /**
@@ -44,7 +60,7 @@ MascotaData masdata = new MascotaData();
         jtNombre = new javax.swing.JTextField();
         jtApellido = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTMascotas = new javax.swing.JTable();
+        jtTabla = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         jbConsulta = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
@@ -78,7 +94,7 @@ MascotaData masdata = new MascotaData();
 
         jtApellido.setFont(new java.awt.Font("Dialog", 0, 20)); // NOI18N
 
-        jTMascotas.setModel(new javax.swing.table.DefaultTableModel(
+        jtTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -89,7 +105,7 @@ MascotaData masdata = new MascotaData();
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTMascotas);
+        jScrollPane1.setViewportView(jtTabla);
 
         jLabel3.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
         jLabel3.setText("DNI Cliente:");
@@ -195,37 +211,40 @@ MascotaData masdata = new MascotaData();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
-      limpiarTabla();
+        limpiarTabla();
         Cliente cli = clidata.buscarDni(Integer.parseInt(jtDni.getText()));
-        if(cli !=null){
-        jtIdCliente.setText(""+cli.getIdCliente());
-        jtApellido.setText(cli.getApellido());
-        jtNombre.setText(cli.getNombre());
-        CargarMascotas(cli.getIdCliente());
-        
-        
-        }else{
-        int opc = JOptionPane.showConfirmDialog(null, "el Cliente no existe desea crear uno nuevo? Y/N", "Confirmacion", JOptionPane.YES_NO_CANCEL_OPTION);
-        if(opc==0){
-        visitasClienteNuevo ventana = new visitasClienteNuevo();
-        ventana.setVisible(true);
-        
-        ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        }else{
-        jtIdCliente.setText("");
-        jtApellido.setText("");
-        jtNombre.setText("");
-        jtDni.setText("");
-        
+        if (cli != null) {
+            jtIdCliente.setText("" + cli.getIdCliente());
+            jtApellido.setText(cli.getApellido());
+            jtNombre.setText(cli.getNombre());
+            CargarMascotas(cli.getIdCliente());
+
+        } else {
+            int opc = JOptionPane.showConfirmDialog(null, "el Cliente no existe desea crear uno nuevo? Y/N", "Confirmacion", JOptionPane.YES_NO_CANCEL_OPTION);
+            if (opc == 0) {
+                visitasClienteNuevo ventana = new visitasClienteNuevo();
+                ventana.setVisible(true);
+
+                ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            } else {
+                jtIdCliente.setText("");
+                jtApellido.setText("");
+                jtNombre.setText("");
+                jtDni.setText("");
+
+            }
         }
-        }
-        
-        
-        
+
+
     }//GEN-LAST:event_jbBuscarActionPerformed
 
     private void jbConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConsultaActionPerformed
-        // TODO add your handling code here:
+
+        listaVisita ventana2 = new listaVisita();
+        ventana2.setVisible(true);
+        ventana2.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        System.out.println(idMascota);
+
     }//GEN-LAST:event_jbConsultaActionPerformed
 
 
@@ -237,13 +256,13 @@ MascotaData masdata = new MascotaData();
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTMascotas;
     private javax.swing.JButton jbBuscar;
     private javax.swing.JButton jbConsulta;
     private javax.swing.JTextField jtApellido;
     private static javax.swing.JTextField jtDni;
     private javax.swing.JTextField jtIdCliente;
     private javax.swing.JTextField jtNombre;
+    private javax.swing.JTable jtTabla;
     // End of variables declaration//GEN-END:variables
 
     private void armarCabecera() {
@@ -252,15 +271,15 @@ MascotaData masdata = new MascotaData();
         modelo.addColumn("Sexo");
         modelo.addColumn("Especie");
         modelo.addColumn("Raza");
-        jTMascotas.setModel(modelo);
-        
-        
-        
+        jtTabla.setModel(modelo);
+
     }
-    public static int dni(){
-    
-    return Integer.parseInt(jtDni.getText());
+
+    public static int dni() {
+
+        return Integer.parseInt(jtDni.getText());
     }
+
     private void CargarMascotas(int idc) {
         ArrayList<Mascota> listaTratamientos = masdata.buscarMascotaPIdCliente(idc);
         for (Mascota t : listaTratamientos) {
@@ -275,6 +294,7 @@ MascotaData masdata = new MascotaData();
         }
 
     }
+
     private void limpiarTabla() {
         int filas = modelo.getRowCount() - 1;
         for (int i = filas; i >= 0; i--) {
@@ -283,6 +303,9 @@ MascotaData masdata = new MascotaData();
         }
 
     }
-    
-    
+    public static int getterId(){
+        
+    return idMascota;
+    }
+
 }

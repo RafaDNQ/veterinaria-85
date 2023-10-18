@@ -31,6 +31,9 @@ public class MascotaData {
         datacliente = new ClienteData();
         con = Conexion.getConexion();
     }
+    public void setterconexion (){
+    con = null;
+    }
     
     public void guardarMascota(Mascota mascota) {
         String sql = " INSERT INTO `mascota`(`alias`, `sexo`, `especie`, `raza`, `colorPelo`, `pesoPromedio`,"
@@ -124,12 +127,13 @@ public class MascotaData {
                 mascota.setAlias(rs.getString("alias"));
                 mascota.setColorPelo(rs.getString("colorPelo"));
                 mascota.setEspecie(rs.getString("especie"));
-                mascota.setFechaN(rs.getDate("fechaN").toLocalDate());
+                mascota.setFechaN(rs.getDate("fechaNac").toLocalDate());
                 mascota.setIdMascota(rs.getInt(id));
                 mascota.setPesoPromedio(rs.getDouble("pesoPromedio"));
                 mascota.setRaza(rs.getString("raza"));
                 mascota.setSexo(rs.getString("sexo"));
                 mascota.setActivo(rs.getBoolean("activo"));
+                
                 
             }
             

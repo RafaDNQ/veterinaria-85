@@ -26,16 +26,15 @@ import javax.swing.JOptionPane;
 public class VisitaData {
 
     private Connection con = null;
-    ClienteData datacliente = null;
+   
     MascotaData datamascota = null;
     TratamientoData datatrata = null;
-    VisitaData datv=null;
-
+    
     public VisitaData() {
-        datacliente = new ClienteData();
-        datamascota = new MascotaData();
-        datatrata = new TratamientoData();
-        datv=new VisitaData();
+        //datacliente = new ClienteData();
+        //datamascota = new MascotaData();
+        //datatrata = new TratamientoData();
+       // datv=new VisitaData();
         con = Conexion.getConexion();
     }
 
@@ -106,10 +105,11 @@ public class VisitaData {
 
     }
 
-    public List<Visita> buscarVIDMa(int id) {
-        List<Visita> listavisita = new ArrayList<>();
+    public ArrayList<Visita> buscarVIDMa(int id) {
+        ArrayList<Visita> listavisita = new ArrayList<>();
         String sql = "SELECT * FROM `visita` WHERE idMascota=?";
         Visita visita = null;
+
         Mascota mas = datamascota.buscarMascotaid(id);
         Tratamiento tra = datatrata.buscar();
         
