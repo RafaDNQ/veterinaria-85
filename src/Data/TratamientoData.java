@@ -87,7 +87,7 @@ public class TratamientoData {
                 trata.setDescripcion(rs.getString("descripcion"));
                 trata.setActivo(rs.getBoolean("activo"));
                 trata.setIdTratamiento(rs.getInt("idTratamiento"));
-                trata.setInporte(rs.getDouble("inporte"));
+                trata.setInporte(rs.getDouble("importe"));
 
             }
 

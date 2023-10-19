@@ -128,13 +128,12 @@ public class MascotaData {
                 mascota.setColorPelo(rs.getString("colorPelo"));
                 mascota.setEspecie(rs.getString("especie"));
                 mascota.setFechaN(rs.getDate("fechaNac").toLocalDate());
-                mascota.setIdMascota(rs.getInt(id));
+                mascota.setIdMascota(id);
                 mascota.setPesoPromedio(rs.getDouble("pesoPromedio"));
                 mascota.setRaza(rs.getString("raza"));
                 mascota.setSexo(rs.getString("sexo"));
                 mascota.setActivo(rs.getBoolean("activo"));
-                
-                
+
             }
             
         } catch (SQLException ex) {

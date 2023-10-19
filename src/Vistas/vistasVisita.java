@@ -243,7 +243,7 @@ public class vistasVisita extends javax.swing.JInternalFrame {
         listaVisita ventana2 = new listaVisita();
         ventana2.setVisible(true);
         ventana2.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        System.out.println(idMascota);
+        
 
     }//GEN-LAST:event_jbConsultaActionPerformed
 
@@ -297,11 +297,12 @@ public class vistasVisita extends javax.swing.JInternalFrame {
 
     private void limpiarTabla() {
         int filas = modelo.getRowCount() - 1;
+        if(modelo.getRowCount()>= 0){
         for (int i = filas; i >= 0; i--) {
             modelo.removeRow(i);
 
         }
-
+        }
     }
     public static int getterId(){
         

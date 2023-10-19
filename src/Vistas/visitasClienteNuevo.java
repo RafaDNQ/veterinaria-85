@@ -215,6 +215,7 @@ public class visitasClienteNuevo extends javax.swing.JFrame {
             cli.setTelefono(Integer.parseInt(jtTelefono.getText()));
             cli.setTelefonoAl(Integer.parseInt(jtTelAlter.getText()));
             clientedata.guardarCliente(cli);
+            this.dispose();
         } catch (NumberFormatException err) {
             JOptionPane.showMessageDialog(this, "El campo DNI debe ser un numero y no puede estar vacio ", "DNI invalido", JOptionPane.WARNING_MESSAGE);
             jtDni.setText("");

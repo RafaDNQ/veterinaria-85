@@ -6,8 +6,11 @@ package Vistas;
 
 import Data.ClienteData;
 import Data.MascotaData;
+import Data.TratamientoData;
 import Data.VisitaData;
+import Entidades.Cliente;
 import Entidades.Mascota;
+import Entidades.Tratamiento;
 import Entidades.Visita;
 import java.util.ArrayList;
 import javax.swing.JFrame;
@@ -27,13 +30,25 @@ public class listaVisita extends javax.swing.JFrame {
     };
     VisitaData vidata = new VisitaData();
     MascotaData masdata = new MascotaData();
+    TratamientoData tradata = new TratamientoData();
     int idMascota = vistasVisita.getterId();
 
     public listaVisita() {
         initComponents();
        armarCabecera();
        CargarVisita();
+       cargarcombo();
        
+    }
+     private void cargarcombo() {
+        ArrayList<Tratamiento> tra = tradata.ListaTrata();
+        
+        if (tra != null) {
+            for (Tratamiento m : tra) {
+                jcCombo.addItem(m.getTipoTratamiento());
+            }
+
+        }
     }
 
     /**
@@ -52,6 +67,9 @@ public class listaVisita extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jtAlias = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jcCombo = new javax.swing.JComboBox<>();
+        jbBuscar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -76,10 +94,24 @@ public class listaVisita extends javax.swing.JFrame {
         jtAlias.setEditable(false);
         jtAlias.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
 
-        jButton1.setText("jButton1");
+        jButton1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jButton1.setText("Crear Visita");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel3.setText("Tratamientos:");
+
+        jcCombo.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+
+        jbBuscar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jbBuscar.setText("Buscar");
+        jbBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbBuscarActionPerformed(evt);
             }
         });
 
@@ -90,14 +122,23 @@ public class listaVisita extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 511, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jtAlias, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton1))
-                .addContainerGap(42, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jtAlias, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton1)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(18, 18, 18)
+                                .addComponent(jcCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jbBuscar)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -109,10 +150,15 @@ public class listaVisita extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(jtAlias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jcCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbBuscar)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44)
+                .addGap(18, 18, 18)
                 .addComponent(jButton1)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addGap(17, 17, 17))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -134,6 +180,14 @@ public class listaVisita extends javax.swing.JFrame {
         ventana.setVisible(true);
         ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
+       
+       
+        
+        
+        
+    }//GEN-LAST:event_jbBuscarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -175,14 +229,17 @@ public class listaVisita extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jbBuscar;
+    private javax.swing.JComboBox<String> jcCombo;
     private javax.swing.JTextField jtAlias;
     private javax.swing.JTable jtTabla;
     // End of variables declaration//GEN-END:variables
 private void armarCabecera() {
         modelo.addColumn("ID Visita ");
-        modelo.addColumn("Dia ");
+        modelo.addColumn("Fecha ");
         modelo.addColumn("Detalle ");
         modelo.addColumn("Peso ");
         modelo.addColumn("tratamiento ");
@@ -191,7 +248,7 @@ private void armarCabecera() {
     }
 
     private void CargarVisita() {
-        System.out.println(" :() "+idMascota);
+        
         if(idMascota>0){
         jtAlias.setText(masdata.buscarMascotaid(idMascota).getAlias());
         ArrayList<Visita> listaTratamientos = vidata.buscarVIDMa(idMascota);
@@ -201,7 +258,7 @@ private void armarCabecera() {
                 t.getVisita(),
                 t.getDetalle(),
                 t.getPeso(),
-                t.getTratamiento()
+                t.getTratamiento().getTipoTratamiento()
             });
 
         }

@@ -26,15 +26,15 @@ import javax.swing.JOptionPane;
 public class VisitaData {
 
     private Connection con = null;
-   
-    MascotaData datamascota = null;
-    TratamientoData datatrata = null;
-    
+
+    MascotaData datamascota = new MascotaData();
+    TratamientoData datatrata = new TratamientoData();
+
     public VisitaData() {
         //datacliente = new ClienteData();
         //datamascota = new MascotaData();
         //datatrata = new TratamientoData();
-       // datv=new VisitaData();
+        // datv=new VisitaData();
         con = Conexion.getConexion();
     }
 
@@ -111,8 +111,50 @@ public class VisitaData {
         Visita visita = null;
 
         Mascota mas = datamascota.buscarMascotaid(id);
+        if (mas == null) {
+            System.out.println("nulo :x" + mas);
+        }
         Tratamiento tra = datatrata.buscar();
-        
+
+        try (PreparedStatement ps = con.prepareStatement(sql);) {
+            if (mas != null) {
+                ps.setInt(1, id);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    visita = new Visita();
+                    visita.setActivo(rs.getBoolean("activo"));
+                    visita.setDetalle(rs.getString("detalle"));
+                    visita.setIdVisita(rs.getInt("idVisita"));
+                    visita.setMascota(mas);
+                    visita.setPeso(rs.getDouble("peso"));
+                    visita.setTratamiento(tra);
+                    visita.setVisita(rs.getDate("fechaVisita").toLocalDate());
+                    listavisita.add(visita);
+
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(null, "visita nulo");
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error sql buscar visita por id mascota");
+            ex.printStackTrace();
+        }
+
+        return listavisita;
+    }
+
+    public ArrayList<Visita> buscarT(int id) {
+        ArrayList<Visita> listavisita = new ArrayList<>();
+        String sql = "SELECT * FROM `visita` WHERE idTratamiento = ? AND idMascota = ?;";
+        Visita visita = null;
+        Mascota mas = datamascota.buscarMascotaid(id);
+        if (mas == null) {
+            System.out.println("nulo :x" + mas);
+        }
+        Tratamiento tra = datatrata.buscar();
+
         try (PreparedStatement ps = con.prepareStatement(sql);) {
             if (mas != null) {
                 ps.setInt(1, id);
