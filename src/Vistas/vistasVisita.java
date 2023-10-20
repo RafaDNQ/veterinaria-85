@@ -26,16 +26,24 @@ public class vistasVisita extends javax.swing.JInternalFrame {
     private static int idMascota;
 
     public vistasVisita() {
+
         initComponents();
         armarCabecera();
+        jbConsulta.setEnabled(false);
         jtTabla.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
 
                     int fila = jtTabla.getSelectedRow();
-                    idMascota = (Integer) jtTabla.getValueAt(fila, 0);
-                    
+
+                    if (fila != -1) {
+                        idMascota = (Integer) jtTabla.getValueAt(fila, 0);
+                        jbConsulta.setEnabled(true);
+
+                    } else {
+                        jbConsulta.setEnabled(false);
+                    }
                 }
             }
 
@@ -243,7 +251,7 @@ public class vistasVisita extends javax.swing.JInternalFrame {
         listaVisita ventana2 = new listaVisita();
         ventana2.setVisible(true);
         ventana2.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        
+        jtTabla.clearSelection();
 
     }//GEN-LAST:event_jbConsultaActionPerformed
 
@@ -297,16 +305,17 @@ public class vistasVisita extends javax.swing.JInternalFrame {
 
     private void limpiarTabla() {
         int filas = modelo.getRowCount() - 1;
-        if(modelo.getRowCount()>= 0){
-        for (int i = filas; i >= 0; i--) {
-            modelo.removeRow(i);
+        if (modelo.getRowCount() >= 0) {
+            for (int i = filas; i >= 0; i--) {
+                modelo.removeRow(i);
 
-        }
+            }
         }
     }
-    public static int getterId(){
-        
-    return idMascota;
+
+    public static int getterId() {
+
+        return idMascota;
     }
 
 }

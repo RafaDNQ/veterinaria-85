@@ -42,12 +42,14 @@ public class VisitaData {
         String sql = "INSERT INTO `visita`(`idMascota`, `detalle`, `peso`, `idTratamiento`, `fechaVisita`, `activo`) VALUES (?,?,?,?,?,?)";
 
         try (PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
+            
             ps.setInt(1, visita.getMascota().getIdMascota());
             ps.setString(2, visita.getDetalle());
             ps.setDouble(3, visita.getPeso());
             ps.setInt(4, visita.getTratamiento().getIdTratamiento());
             ps.setDate(5, Date.valueOf(visita.getVisita()));
             ps.setBoolean(6, visita.isActivo());
+            ps.executeUpdate();
             try (ResultSet rs = ps.getGeneratedKeys();) {
                 if (rs.next()) {
 
@@ -109,25 +111,27 @@ public class VisitaData {
         ArrayList<Visita> listavisita = new ArrayList<>();
         String sql = "SELECT * FROM `visita` WHERE idMascota=?";
         Visita visita = null;
+        Tratamiento tra =null;
 
         Mascota mas = datamascota.buscarMascotaid(id);
         if (mas == null) {
             System.out.println("nulo :x" + mas);
         }
-        Tratamiento tra = datatrata.buscar();
-
         try (PreparedStatement ps = con.prepareStatement(sql);) {
             if (mas != null) {
                 ps.setInt(1, id);
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     visita = new Visita();
+                   
+                   int ip= rs.getInt("idTratamiento");
+                    tra = datatrata.buscar(ip);
                     visita.setActivo(rs.getBoolean("activo"));
                     visita.setDetalle(rs.getString("detalle"));
                     visita.setIdVisita(rs.getInt("idVisita"));
                     visita.setMascota(mas);
                     visita.setPeso(rs.getDouble("peso"));
-                    visita.setTratamiento(tra);
+                   visita.setTratamiento(tra);
                     visita.setVisita(rs.getDate("fechaVisita").toLocalDate());
                     listavisita.add(visita);
 
@@ -144,29 +148,32 @@ public class VisitaData {
 
         return listavisita;
     }
-
-    public ArrayList<Visita> buscarT(int id) {
+////////////////////////////////////////////////////////////////////////////////////////////////
+    public ArrayList<Visita> buscarT(int id,int idtratamiento) {
         ArrayList<Visita> listavisita = new ArrayList<>();
         String sql = "SELECT * FROM `visita` WHERE idTratamiento = ? AND idMascota = ?;";
         Visita visita = null;
+         Tratamiento tra =null;
         Mascota mas = datamascota.buscarMascotaid(id);
         if (mas == null) {
             System.out.println("nulo :x" + mas);
         }
-        Tratamiento tra = datatrata.buscar();
+        
 
         try (PreparedStatement ps = con.prepareStatement(sql);) {
             if (mas != null) {
                 ps.setInt(1, id);
+                ps.setInt(2, idtratamiento);
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     visita = new Visita();
+                    tra = datatrata.buscar(idtratamiento);
                     visita.setActivo(rs.getBoolean("activo"));
                     visita.setDetalle(rs.getString("detalle"));
                     visita.setIdVisita(rs.getInt("idVisita"));
                     visita.setMascota(mas);
                     visita.setPeso(rs.getDouble("peso"));
-                    visita.setTratamiento(tra);
+                   visita.setTratamiento(tra);
                     visita.setVisita(rs.getDate("fechaVisita").toLocalDate());
                     listavisita.add(visita);
 

@@ -75,11 +75,12 @@ public class TratamientoData {
 
     }
 
-    public Tratamiento buscar() {
+    public Tratamiento buscar(int id) {
         Tratamiento trata = null;
 
-        String sql = "SELECT * FROM `tratamiento` WHERE 1";
+        String sql = "SELECT * FROM `tratamiento` WHERE idTratamiento = ?";
         try (PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
+            ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 trata = new Tratamiento();

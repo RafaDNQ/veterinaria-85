@@ -92,8 +92,10 @@ public class Visita {
 
     @Override
     public String toString() {
-        return "Visita{" + "mascota=" + mascota + ", tratamiento=" + tratamiento + ", visita=" + visita + '}';
+        return "Visita{" + "idVisita=" + idVisita + ", mascota=" + mascota + ", detalle=" + detalle + ", peso=" + peso + ", tratamiento=" + tratamiento + ", visita=" + visita + ", activo=" + activo + '}';
     }
+
+    
     
     
     

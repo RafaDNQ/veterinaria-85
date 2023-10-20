@@ -37,7 +37,7 @@ public class listaVisita extends javax.swing.JFrame {
         initComponents();
        armarCabecera();
        CargarVisita();
-       cargarcombo();
+      cargarcombo();
        
     }
      private void cargarcombo() {
@@ -45,7 +45,7 @@ public class listaVisita extends javax.swing.JFrame {
         
         if (tra != null) {
             for (Tratamiento m : tra) {
-                jcCombo.addItem(m.getTipoTratamiento());
+                jcCombo.addItem(m);
             }
 
         }
@@ -70,6 +70,8 @@ public class listaVisita extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jcCombo = new javax.swing.JComboBox<>();
         jbBuscar = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -115,6 +117,12 @@ public class listaVisita extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel4.setText("Listar ultimas 10 visitas");
+
+        jButton2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jButton2.setText("Buscar");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -122,22 +130,26 @@ public class listaVisita extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 511, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jtAlias, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jButton1)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addGap(18, 18, 18)
                                 .addComponent(jcCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jbBuscar)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(jbBuscar))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jtAlias, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel4)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton2)))
+                        .addGap(0, 30, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -148,7 +160,9 @@ public class listaVisita extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jtAlias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtAlias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(jButton2))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jcCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -183,8 +197,8 @@ public class listaVisita extends javax.swing.JFrame {
 
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
        
-       
-        
+       limpiarTabla();
+        cargarTabla2();
         
         
     }//GEN-LAST:event_jbBuscarActionPerformed
@@ -227,13 +241,15 @@ public class listaVisita extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbBuscar;
-    private javax.swing.JComboBox<String> jcCombo;
+    private javax.swing.JComboBox<Tratamiento> jcCombo;
     private javax.swing.JTextField jtAlias;
     private javax.swing.JTable jtTabla;
     // End of variables declaration//GEN-END:variables
@@ -264,6 +280,21 @@ private void armarCabecera() {
         }
 
     }}
+    
+    private void cargarTabla2(){
+    int idtratamiento = ((Tratamiento)jcCombo.getSelectedItem()).getIdTratamiento();
+        ArrayList<Visita> listaTratamientos = vidata.buscarT(idMascota,idtratamiento);
+     for (Visita t : listaTratamientos) {
+            modelo.addRow(new Object[]{
+                t.getIdVisita(),
+                t.getVisita(),
+                t.getDetalle(),
+                t.getPeso(),
+                t.getTratamiento().getTipoTratamiento()
+            });
+
+        }
+    }
 
     private void limpiarTabla() {
         int filas = modelo.getRowCount() - 1;

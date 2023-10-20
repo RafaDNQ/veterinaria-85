@@ -4,17 +4,31 @@
  */
 package Vistas;
 
+import Data.MascotaData;
+import Data.TratamientoData;
+import Data.VisitaData;
+import Entidades.Tratamiento;
+import Entidades.Visita;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Date;
+
+
 /**
  *
  * @author Usuario
  */
 public class crearVisita extends javax.swing.JFrame {
+    MascotaData masdata = new MascotaData();
+    TratamientoData tradata = new TratamientoData();
+    VisitaData vidata = new VisitaData();
 
-    /**
-     * Creates new form crearVisita
-     */
+    int idMascota = vistasVisita.getterId();
     public crearVisita() {
         initComponents();
+        cargarcombo();
+       jtAlias.setText(masdata.buscarMascotaid(idMascota).getAlias());
+       
     }
 
     /**
@@ -70,6 +84,11 @@ public class crearVisita extends javax.swing.JFrame {
 
         jbCrear.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jbCrear.setText("Crear");
+        jbCrear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbCrearActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -141,6 +160,23 @@ public class crearVisita extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jbCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCrearActionPerformed
+       
+        Visita vi = new Visita();
+        ///////
+        int idT = ((Tratamiento)jcCombo.getSelectedItem()).getIdTratamiento();
+        vi.setMascota(masdata.buscarMascotaid(idMascota));
+        vi.setDetalle(jtDetalle.getText());
+        vi.setTratamiento(tradata.buscar(idT));
+        vi.setPeso(Double.parseDouble(jtPeso.getText()));
+        vi.setActivo(true);
+        vi.setVisita(jdDia.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        System.out.println(vi);
+        vidata.guardar(vi);
+        this.dispose();
+        
+    }//GEN-LAST:event_jbCrearActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -185,10 +221,23 @@ public class crearVisita extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbCrear;
-    private javax.swing.JComboBox<String> jcCombo;
+    private javax.swing.JComboBox<Tratamiento> jcCombo;
     private com.toedter.calendar.JDateChooser jdDia;
     private javax.swing.JTextField jtAlias;
     private javax.swing.JTextArea jtDetalle;
     private javax.swing.JTextField jtPeso;
     // End of variables declaration//GEN-END:variables
+
+
+    private void cargarcombo() {
+        ArrayList<Tratamiento> tra = tradata.ListaTrata();
+        
+        if (tra != null) {
+            for (Tratamiento m : tra) {
+                jcCombo.addItem(m);
+            }
+
+        }
+    }
+
 }
