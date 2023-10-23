@@ -109,7 +109,7 @@ public class VisitaData {
 
     public ArrayList<Visita> buscarVIDMa(int id) {
         ArrayList<Visita> listavisita = new ArrayList<>();
-        String sql = "SELECT * FROM `visita` WHERE idMascota=?";
+        String sql = "SELECT * FROM `visita` WHERE idMascota=?  ORDER BY fechaVisita DESC;";
         Visita visita = null;
         Tratamiento tra =null;
 
@@ -151,7 +151,7 @@ public class VisitaData {
 ////////////////////////////////////////////////////////////////////////////////////////////////
     public ArrayList<Visita> buscarT(int id,int idtratamiento) {
         ArrayList<Visita> listavisita = new ArrayList<>();
-        String sql = "SELECT * FROM `visita` WHERE idTratamiento = ? AND idMascota = ?;";
+        String sql = "SELECT * FROM `visita` WHERE idTratamiento = ? AND idMascota = ? ORDER BY fechaVisita DESC;";
         Visita visita = null;
          Tratamiento tra =null;
         Mascota mas = datamascota.buscarMascotaid(id);
@@ -190,5 +190,31 @@ public class VisitaData {
 
         return listavisita;
     }
+    
+    //// peso promedio ultimas 10 visitas
+    ///SELECT *, AVG (peso) FROM (SELECT * FROM visita WHERE idMascota=1 ORDER BY fechaVisita DESC LIMIT 10 ) AS promedio;
 
+    public Visita promedioVisitas(int id){
+    Visita visita = null;
+    Mascota mascota = datamascota.buscarMascotaid(id);
+        String sql ="SELECT *, AVG (peso) FROM (SELECT * FROM visita WHERE idMascota=? ORDER BY fechaVisita DESC LIMIT 10 ) AS promedio;";
+         try (PreparedStatement ps = con.prepareStatement(sql);) {
+         ps.setInt(1, id);
+         ResultSet rs = ps.executeQuery();
+         while (rs.next()) {
+         visita = new Visita();
+         visita.setMascota(mascota);
+         visita.setIdVisita(rs.getInt("idVisita"));
+         visita.setTratamiento(datatrata.buscar(rs.getInt("idTratamiento")));
+         visita.setActivo(true);
+         visita.setDetalle(rs.getString("detalle"));
+         visita.setVisita(rs.getDate("fechaVisita").toLocalDate());
+         
+         }
+         } catch (SQLException ex) {
+            Logger.getLogger(VisitaData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
 }

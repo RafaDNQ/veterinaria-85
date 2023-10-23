@@ -28,6 +28,7 @@ public class Veterinaria85 {
         MascotaData mas=new MascotaData();
        // cli.guardarCliente(juan);
         mas.eliminar(perro.getIdMascota());
+        //SELECT *, AVG (peso) FROM (SELECT * FROM visita WHERE idMascota=1 ORDER BY fechaVisita DESC LIMIT 10 ) AS promedio;
         
         
         
