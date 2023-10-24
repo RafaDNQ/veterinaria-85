@@ -58,7 +58,7 @@ public class TratamientoData {
 
         String sql = "UPDATE `tratamiento` SET `tipoTratamiento`=?,`descripcion`=?,`importe`=?,`activo`=? WHERE idTratamiento = ?";
 
-        try (PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
+        try (PreparedStatement ps = con.prepareStatement(sql);) {
             ps.setString(1, trata.getTipoTratamiento());
             ps.setString(2, trata.getDescripcion());
             ps.setDouble(3, trata.getImporte());

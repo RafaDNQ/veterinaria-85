@@ -20,7 +20,9 @@ import javax.swing.table.DefaultTableModel;
  * @author Usuario
  */
 public class crearTratamientos extends javax.swing.JInternalFrame {
-    boolean insertar=false;
+
+    boolean insertar = false;
+    boolean modoModificacion = true;
     boolean finInsercion = false;
     Tratamiento aux = new Tratamiento();
     boolean bloquearSeleccion = false;
@@ -112,27 +114,29 @@ public class crearTratamientos extends javax.swing.JInternalFrame {
                     for (int columnas = 1; columnas < jtTabla.getColumnCount(); columnas++) {
                         Object obj = jtTabla.getValueAt(fila, columnas);
                         if (obj != null) {
-                            System.out.println("representacion de obj"+obj);
                             switch (columnas) {
                                 case 1:
                                     aux.setTipoTratamiento((String) obj);
-                                    System.out.println("columna 1 "+aux.getTipoTratamiento());
+                                    // System.out.println("columna 1 " + aux.getTipoTratamiento());
                                     break;
                                 case 2:
                                     aux.setDescripcion((String) obj);
-                                    System.out.println("columna 2 "+aux.getDescripcion());
+                                    // System.out.println("columna 2 " + aux.getDescripcion());
                                     break;
                                 case 3:
-                                    System.out.println("valor de obj columna 3"+obj);
-                                    Double importeString=(Double)obj;
-                                    
-                                        System.out.println(importeString);
-                                         //Double importe = Double.valueOf(importeString);
-                                        aux.setImporte(importeString);
-                                        
-                                    
-                                   
-                                     System.out.println("columna 3"+aux.getImporte());
+                                    //System.out.println("valor de obj columna 3"+obj);
+                                    //Double importeString = (String) obj;
+//                                    Double valor=(Double) obj;
+//                                    System.out.println(obj);
+                                    // System.out.println(importeString);
+                                    //Double importe = Double.valueOf(importeString);
+//                                    System.out.println(valor);
+                                    Double valorImporte = (Double) obj;
+                                    if (valorImporte instanceof Double) {
+                                        aux.setImporte(valorImporte);
+                                    }
+
+                                    System.out.println("columna 3" + aux.getImporte());
                                     break;
                                 default:
                                     System.out.println("erro");
@@ -141,40 +145,54 @@ public class crearTratamientos extends javax.swing.JInternalFrame {
                             }
 
                         }
-                      
 
                     }
-                     // System.out.println(aux.getIdTratamiento());
-                        System.out.println(aux.getTipoTratamiento());
-                        System.out.println(aux.getDescripcion());
-                        System.out.println(aux.getImporte());
-                    
-                    boolean validacion = aux.getImporte() > 0 && !aux.getDescripcion().isEmpty() && !aux.getDescripcion().isEmpty();
-                        if (validacion && insertar) {
-                            System.out.println("insercion Interna");
-                            int opc = JOptionPane.showConfirmDialog(null, "Desea insertar estos datos?Y/N", "Confirmacion", JOptionPane.YES_NO_CANCEL_OPTION);
-                            if (opc == 0) {
-                                aux.setActivo(true);
-                                tradata.guardarTratamiento(aux);
-                                limpiarTabla();
-                                CargarTratamientos();
-                                finInsercion = true;
-                                bloquearSeleccion = false;
-                                aux = null;
-                                jtTabla.clearSelection();
+//                    System.out.println(aux.getIdTratamiento());
+//                    System.out.println(aux.getTipoTratamiento());
+//                    System.out.println(aux.getDescripcion());
+//                    System.out.println(aux.getImporte());
 
-                            }
+                    boolean validacion = aux.getImporte() > 0 && !aux.getDescripcion().isEmpty() && !aux.getDescripcion().isEmpty();
+                    if (validacion && insertar) {
+                        System.out.println("insercion Interna");
+                        int opc = JOptionPane.showConfirmDialog(null, "Desea insertar estos datos?Y/N", "Confirmacion", JOptionPane.YES_NO_CANCEL_OPTION);
+                        if (opc == 0) {
+                            aux.setActivo(true);
+                            tradata.guardarTratamiento(aux);
+                            limpiarTabla();
+                            CargarTratamientos();
+                            finInsercion = true;
+                            bloquearSeleccion = false;
+                            aux = null;
+                            aux = new Tratamiento();
+                            jtTabla.clearSelection();
+
+                        }
+                    } else if (modoModificacion) {
+                        Tratamiento tratamiento = obtenerTramiento(true);
+                        int respuesta = JOptionPane.showConfirmDialog(null, "Desea modificar este tratamiento?Y?N", "Confirmacion", JOptionPane.YES_NO_OPTION);
+
+                        if (validacion && tratamiento.getIdTratamiento() > 0 && respuesta == 0) {
+                            tradata.modificar(tratamiento);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Operacion abortada", "Mensaje", JOptionPane.WARNING_MESSAGE);
                         }
 
+                    }
+
                 } else if (e.getType() == TableModelEvent.INSERT) {
-                    finInsercion=false;
-                    insertar=true;
+                    if (aux == null) {
+                        aux = new Tratamiento();
+                    }
+                    finInsercion = false;
+                    insertar = true;
+                    modoModificacion = false;
                     System.out.println("evento de insercion");
                     if (!finInsercion) {
                         bloquearSeleccion = true;
                     }
 
-                }
+                } 
             }
 
         });
@@ -312,8 +330,6 @@ public class crearTratamientos extends javax.swing.JInternalFrame {
 
     private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
         modelo.addRow(new Object[]{});
-        jbNuevo.setEnabled(false);
-        jbEliminar.setEnabled(false);
 
 
     }//GEN-LAST:event_jbNuevoActionPerformed
@@ -326,6 +342,10 @@ public class crearTratamientos extends javax.swing.JInternalFrame {
             limpiarTabla();
             CargarTratamientos();
             jtTabla.clearSelection();
+            bloquearSeleccion=false;
+            //_>
+            modoModificacion=true;
+            insertar=false;
         } else {
             JOptionPane.showMessageDialog(null, "No se puede borrar este elemento", "Ups", JOptionPane.WARNING_MESSAGE);
         }
