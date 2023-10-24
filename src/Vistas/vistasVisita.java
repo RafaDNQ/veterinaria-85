@@ -283,10 +283,7 @@ public class vistasVisita extends javax.swing.JInternalFrame {
 
     }
 
-    public static int dni() {
-
-        return Integer.parseInt(jtDni.getText());
-    }
+    
 
     private void CargarMascotas(int idc) {
         ArrayList<Mascota> listaTratamientos = masdata.buscarMascotaPIdCliente(idc);

@@ -75,6 +75,7 @@ public class listaVisita extends javax.swing.JFrame {
         jbBuscarUltimas10 = new javax.swing.JButton();
         jbBuscarVisitasMascota = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
+        jlPesoPromedio = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -121,7 +122,7 @@ public class listaVisita extends javax.swing.JFrame {
         });
 
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel4.setText("Listar ultimas 10 visitas:");
+        jLabel4.setText("Peso Promedio de las ultimas 10 visitas:");
 
         jbBuscarUltimas10.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jbBuscarUltimas10.setText("Buscar");
@@ -142,6 +143,9 @@ public class listaVisita extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel5.setText("Visitas de la Mascota :");
 
+        jlPesoPromedio.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jlPesoPromedio.setText("0");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -149,6 +153,11 @@ public class listaVisita extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
+                        .addComponent(jbBuscarVisitasMascota)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 665, Short.MAX_VALUE)
@@ -159,26 +168,23 @@ public class listaVisita extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel2)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jtAlias, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(jtAlias, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jLabel4)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jlPesoPromedio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jLabel3)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jcCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jbBuscar)))
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jbBuscarUltimas10)))
                                 .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(18, 18, 18)
-                                .addComponent(jbBuscarVisitasMascota))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(18, 18, 18)
-                                .addComponent(jbBuscarUltimas10))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jcCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jbBuscar)))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -196,7 +202,8 @@ public class listaVisita extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jbBuscarUltimas10))
+                    .addComponent(jbBuscarUltimas10)
+                    .addComponent(jlPesoPromedio))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -232,8 +239,6 @@ public class listaVisita extends javax.swing.JFrame {
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
 
         limpiarTabla();
-        borrarTabla();
-        armarCabecera();
         cargarTabla2();
         
 
@@ -242,16 +247,17 @@ public class listaVisita extends javax.swing.JFrame {
 
     private void jbBuscarVisitasMascotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarVisitasMascotaActionPerformed
         limpiarTabla();
-        borrarTabla();
-        armarCabecera();
         CargarVisita();
   
     }//GEN-LAST:event_jbBuscarVisitasMascotaActionPerformed
 
     private void jbBuscarUltimas10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarUltimas10ActionPerformed
-        limpiarTabla();
-        borrarTabla();
-        armarCabecera2();
+        
+        
+        double peso = vidata.promedioVisitas(idMascota);
+        jlPesoPromedio.setText(""+peso+" Kg");
+        
+        
     }//GEN-LAST:event_jbBuscarUltimas10ActionPerformed
 
     /**
@@ -303,6 +309,7 @@ public class listaVisita extends javax.swing.JFrame {
     private javax.swing.JButton jbBuscarUltimas10;
     private javax.swing.JButton jbBuscarVisitasMascota;
     private javax.swing.JComboBox<Tratamiento> jcCombo;
+    private javax.swing.JLabel jlPesoPromedio;
     private javax.swing.JTextField jtAlias;
     private javax.swing.JTable jtTabla;
     // End of variables declaration//GEN-END:variables
@@ -313,22 +320,6 @@ private void armarCabecera() {
         modelo.addColumn("Peso ");
         modelo.addColumn("tratamiento ");
         jtTabla.setModel(modelo);
-
-    }
-
-    private void armarCabecera2() {
-        modelo.addColumn("ID Visita ");
-        modelo.addColumn("Fecha ");
-        modelo.addColumn("Detalle ");
-        modelo.addColumn("Peso ");
-        modelo.addColumn("tratamiento ");
-        modelo.addColumn("Pesp Promedio");
-        jtTabla.setModel(modelo);
-
-    }
-
-    private void borrarTabla() {
-        modelo.setColumnCount(0);
 
     }
 

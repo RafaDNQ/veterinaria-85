@@ -18,7 +18,7 @@ public class visitasClienteNuevo extends javax.swing.JFrame {
     
     public visitasClienteNuevo() {
         initComponents();
-        jtDni.setText(""+vistasVisita.dni());
+      
     }
 
     
@@ -282,4 +282,7 @@ public class visitasClienteNuevo extends javax.swing.JFrame {
     private javax.swing.JTextField jtTelAlter;
     private javax.swing.JTextField jtTelefono;
     // End of variables declaration//GEN-END:variables
+
+   
+
 }

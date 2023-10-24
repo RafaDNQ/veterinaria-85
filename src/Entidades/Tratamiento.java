@@ -9,18 +9,18 @@ public class Tratamiento {
     private double importe;
     private boolean activo;
 
-    public Tratamiento(int idTratamiento, String tipoTratamiento, String descripcion, double inporte, boolean activo) {
+    public Tratamiento(int idTratamiento, String tipoTratamiento, String descripcion, double importe, boolean activo) {
         this.idTratamiento = idTratamiento;
         this.tipoTratamiento = tipoTratamiento;
         this.descripcion = descripcion;
-        this.importe = inporte;
+        this.importe = importe;
         this.activo = activo;
     }
 
-    public Tratamiento(String tipoTratamiento, String descripcion, double inporte, boolean activo) {
+    public Tratamiento(String tipoTratamiento, String descripcion, double importe, boolean activo) {
         this.tipoTratamiento = tipoTratamiento;
         this.descripcion = descripcion;
-        this.importe = inporte;
+        this.importe = importe;
         this.activo = activo;
     }
 
@@ -55,8 +55,8 @@ public class Tratamiento {
         return importe;
     }
 
-    public void setImporte(double inporte) {
-        this.importe = inporte;
+    public void setImporte(double importe) {
+        this.importe = importe;
     }
 
     public boolean isActivo() {

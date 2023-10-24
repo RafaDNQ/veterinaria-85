@@ -131,8 +131,10 @@ public class crearTratamientos extends javax.swing.JInternalFrame {
                                     // System.out.println(importeString);
                                     //Double importe = Double.valueOf(importeString);
 //                                    System.out.println(valor);
-                                    Double valorImporte = (Double) obj;
-                                    if (valorImporte instanceof Double) {
+                                     System.out.println(obj);
+                                   Double valorImporte = Double.parseDouble((String) obj);
+                                    System.out.println(obj);
+                                   if (valorImporte instanceof Double) {
                                         aux.setImporte(valorImporte);
                                     }
 

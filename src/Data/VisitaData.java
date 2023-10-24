@@ -42,7 +42,7 @@ public class VisitaData {
         String sql = "INSERT INTO `visita`(`idMascota`, `detalle`, `peso`, `idTratamiento`, `fechaVisita`, `activo`) VALUES (?,?,?,?,?,?)";
 
         try (PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
-            
+
             ps.setInt(1, visita.getMascota().getIdMascota());
             ps.setString(2, visita.getDetalle());
             ps.setDouble(3, visita.getPeso());
@@ -111,7 +111,7 @@ public class VisitaData {
         ArrayList<Visita> listavisita = new ArrayList<>();
         String sql = "SELECT * FROM `visita` WHERE idMascota=?  ORDER BY fechaVisita DESC;";
         Visita visita = null;
-        Tratamiento tra =null;
+        Tratamiento tra = null;
 
         Mascota mas = datamascota.buscarMascotaid(id);
         if (mas == null) {
@@ -123,15 +123,15 @@ public class VisitaData {
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     visita = new Visita();
-                   
-                   int ip= rs.getInt("idTratamiento");
+
+                    int ip = rs.getInt("idTratamiento");
                     tra = datatrata.buscar(ip);
                     visita.setActivo(rs.getBoolean("activo"));
                     visita.setDetalle(rs.getString("detalle"));
                     visita.setIdVisita(rs.getInt("idVisita"));
                     visita.setMascota(mas);
                     visita.setPeso(rs.getDouble("peso"));
-                   visita.setTratamiento(tra);
+                    visita.setTratamiento(tra);
                     visita.setVisita(rs.getDate("fechaVisita").toLocalDate());
                     listavisita.add(visita);
 
@@ -149,16 +149,16 @@ public class VisitaData {
         return listavisita;
     }
 ////////////////////////////////////////////////////////////////////////////////////////////////
-    public ArrayList<Visita> buscarT(int id,int idtratamiento) {
+
+    public ArrayList<Visita> buscarT(int id, int idtratamiento) {
         ArrayList<Visita> listavisita = new ArrayList<>();
         String sql = "SELECT * FROM `visita` WHERE idTratamiento = ? AND idMascota = ? ORDER BY fechaVisita DESC;";
         Visita visita = null;
-         Tratamiento tra =null;
+        Tratamiento tra = null;
         Mascota mas = datamascota.buscarMascotaid(id);
         if (mas == null) {
             System.out.println("nulo :x" + mas);
         }
-        
 
         try (PreparedStatement ps = con.prepareStatement(sql);) {
             if (mas != null) {
@@ -173,7 +173,7 @@ public class VisitaData {
                     visita.setIdVisita(rs.getInt("idVisita"));
                     visita.setMascota(mas);
                     visita.setPeso(rs.getDouble("peso"));
-                   visita.setTratamiento(tra);
+                    visita.setTratamiento(tra);
                     visita.setVisita(rs.getDate("fechaVisita").toLocalDate());
                     listavisita.add(visita);
 
@@ -190,31 +190,25 @@ public class VisitaData {
 
         return listavisita;
     }
-    
+
     //// peso promedio ultimas 10 visitas
     ///SELECT *, AVG (peso) FROM (SELECT * FROM visita WHERE idMascota=1 ORDER BY fechaVisita DESC LIMIT 10 ) AS promedio;
+    public Double promedioVisitas(int id) {
+        double pesoPromedio = 0.0;
+        Mascota mascota = datamascota.buscarMascotaid(id);
+        String sql = "SELECT AVG (peso) FROM (SELECT peso FROM visita WHERE idMascota=? ORDER BY fechaVisita DESC LIMIT 10 ) AS promedio;";
+        try (PreparedStatement ps = con.prepareStatement(sql);) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+               pesoPromedio=rs.getDouble(1);
+                System.out.println(pesoPromedio);
 
-    public Visita promedioVisitas(int id){
-    Visita visita = null;
-    Mascota mascota = datamascota.buscarMascotaid(id);
-        String sql ="SELECT *, AVG (peso) FROM (SELECT * FROM visita WHERE idMascota=? ORDER BY fechaVisita DESC LIMIT 10 ) AS promedio;";
-         try (PreparedStatement ps = con.prepareStatement(sql);) {
-         ps.setInt(1, id);
-         ResultSet rs = ps.executeQuery();
-         while (rs.next()) {
-         visita = new Visita();
-         visita.setMascota(mascota);
-         visita.setIdVisita(rs.getInt("idVisita"));
-         visita.setTratamiento(datatrata.buscar(rs.getInt("idTratamiento")));
-         visita.setActivo(true);
-         visita.setDetalle(rs.getString("detalle"));
-         visita.setVisita(rs.getDate("fechaVisita").toLocalDate());
-         
-         }
-         } catch (SQLException ex) {
+            }
+        } catch (SQLException ex) {
             Logger.getLogger(VisitaData.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
+        return pesoPromedio;
     }
-    
+
 }
