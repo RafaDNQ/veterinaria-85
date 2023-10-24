@@ -8,8 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class ClienteData {
@@ -58,7 +56,7 @@ public class ClienteData {
         
         Cliente cliente = null;
         
-        String sql ="SELECT * FROM `cliente` WHERE dni=?";
+        String sql ="SELECT * FROM `cliente` WHERE dni=? and activo=1";
         
         try (PreparedStatement ps = con.prepareStatement(sql);) {
         
@@ -78,9 +76,9 @@ public class ClienteData {
             JOptionPane.showMessageDialog(null, "cliente Guardado :V");
             
             }
-            else{
-            JOptionPane.showMessageDialog(null, "no se encontro cliente :V", "Error", JOptionPane.ERROR_MESSAGE);
-            }   
+//            else{
+//            JOptionPane.showMessageDialog(null, "no se encontro cliente :V", "Error", JOptionPane.ERROR_MESSAGE);
+//            }   
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error sql acceder :,( " + ex.getMessage());
             ex.printStackTrace();
@@ -195,8 +193,7 @@ public class ClienteData {
     return listacliente;
     }
     
-    
-    
+
     
     
     

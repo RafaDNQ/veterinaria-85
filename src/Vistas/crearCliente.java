@@ -2,11 +2,13 @@ package Vistas;
 
 import Data.ClienteData;
 import Entidades.Cliente;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 
 public class crearCliente extends javax.swing.JInternalFrame {
-    static int dniestatico=0;
+
     ClienteData clientedata = new ClienteData();
     ButtonGroup estados = new ButtonGroup();
 
@@ -14,10 +16,11 @@ public class crearCliente extends javax.swing.JInternalFrame {
         initComponents();
         estados.add(jrActivo);
         estados.add(jrInactivo);
+        jbEliminar.setEnabled(false);
+        jbModificar.setEnabled(false);
         jrActivo.setSelected(true);
 
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -261,7 +264,7 @@ public class crearCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jtDniActionPerformed
 
     private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
-        
+
         try {
             int dni = Integer.parseInt(jtDni.getText());
 
@@ -269,7 +272,9 @@ public class crearCliente extends javax.swing.JInternalFrame {
             if (cli != null) {
 
                 clientedata.eliminarCliente(cli.getIdCliente());
-                
+                jbEliminar.setEnabled(false);
+                jbModificar.setEnabled(false);
+
             } else {
                 JOptionPane.showMessageDialog(null, "Cliente no encontrado", "ERROR", JOptionPane.ERROR_MESSAGE);
 
@@ -277,8 +282,8 @@ public class crearCliente extends javax.swing.JInternalFrame {
         } catch (NumberFormatException err) {
             JOptionPane.showMessageDialog(this, "El campo DNI debe ser un numero y no puede estar vacio ", "DNI invalido", JOptionPane.WARNING_MESSAGE);
         }
-        
-        
+
+
     }//GEN-LAST:event_jbEliminarActionPerformed
 
     private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
@@ -289,6 +294,7 @@ public class crearCliente extends javax.swing.JInternalFrame {
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
 
         try {
+
             int dni = Integer.parseInt(jtDni.getText());
 
             Cliente cli = clientedata.buscarDni(dni);
@@ -300,12 +306,15 @@ public class crearCliente extends javax.swing.JInternalFrame {
                 jtContAlter.setText(cli.getNombreAl());
                 jtTelAlter.setText("" + cli.getTelefonoAl());
                 jtTelefono.setText("" + cli.getTelefono());
-                jtId.setText(""+cli.getIdCliente());
+                jtId.setText("" + cli.getIdCliente());
                 jbGuardar.setEnabled(false);
-                if(cli.isActivo()){
-                jrActivo.setSelected(true);
-                }else{
-                    jrInactivo.setSelected(true);}
+                jbEliminar.setEnabled(true);
+                jbModificar.setEnabled(true);
+                if (cli.isActivo()) {
+                    jrActivo.setSelected(true);
+                } else {
+                    jrInactivo.setSelected(true);
+                }
             } else {
                 JOptionPane.showMessageDialog(null, "Cliente no encontrado", "ERROR", JOptionPane.ERROR_MESSAGE);
 
@@ -318,32 +327,67 @@ public class crearCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbBuscarActionPerformed
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
- try {
-        Cliente cli = new Cliente();
-        cli.setActivo(true);
-        cli.setApellido(jtApellido.getText());
-        cli.setDireccion(jtDomicilio.getText());
-        cli.setDni(Integer.parseInt(jtDni.getText()));
-        cli.setNombre(jtNombre.getText());
-        cli.setNombreAl(jtContAlter.getText());
-        cli.setTelefono(Integer.parseInt(jtTelefono.getText()));
-        cli.setTelefonoAl(Integer.parseInt(jtTelAlter.getText()));
-        
-        clientedata.guardarCliente(cli);
-         } catch (NumberFormatException err) {
+        try {
+            Cliente cliente = new Cliente();
+            int longitudDni = jtDni.getText().length();
+            String nombre = jtNombre.getText();
+            String apellido = jtApellido.getText();
+            String domicilio = jtDomicilio.getText();
+            int longitudTelefono = jtTelefono.getText().length();
+            int longitudTelefonoAL = jtTelAlter.getText().length();
+            String nombreAlternativo = jtContAlter.getText();
+            boolean evaluarDatos = nombre.isEmpty() || apellido.isEmpty() || domicilio.isEmpty()
+                    || nombreAlternativo.isEmpty() || !(longitudDni == 8) || longitudTelefono > 10
+                    || longitudTelefonoAL > 10 || !comprobarValores(nombre) || !comprobarValores(apellido) || !comprobarValores(nombreAlternativo);
+            if (evaluarDatos) {
+                throw new RuntimeException("Error al cargar los datos");
+            }
+          int dni=Integer.parseInt(jtDni.getText());
+          int numeroTelefonico=Integer.parseInt(jtTelefono.getText());
+          int numeroAlternativo=Integer.parseInt(jtTelAlter.getText());
+
+          
+          cliente.setNombre(nombre);
+          cliente.setApellido(apellido);
+          cliente.setNombreAl(nombreAlternativo);
+          cliente.setTelefono(numeroTelefonico);
+          cliente.setTelefonoAl(numeroAlternativo);
+          cliente.setDireccion(domicilio);
+          cliente.setDni(dni);
+          cliente.setActivo(true);
+          clientedata.guardarCliente(cliente);
+//        cli.setActivo(true);
+//        cli.setApellido(jtApellido.getText());
+//        cli.setDireccion(jtDomicilio.getText());
+//        cli.setDni(Integer.parseInt(jtDni.getText()));
+//        cli.setNombre(jtNombre.getText());
+//        cli.setNombreAl(jtContAlter.getText());
+//        cli.setTelefono(Integer.parseInt(jtTelefono.getText()));
+//        cli.setTelefonoAl(Integer.parseInt(jtTelAlter.getText()));
+           
+        } catch (NumberFormatException err) {
             JOptionPane.showMessageDialog(this, "El campo DNI debe ser un numero y no puede estar vacio ", "DNI invalido", JOptionPane.WARNING_MESSAGE);
             jtDni.setText("");
 
-       }catch(Exception err){
-            JOptionPane.showMessageDialog(null,"Ups a ocurrido un error inesperado contacte un administrador"+err.getMessage(),"Error inesperado",JOptionPane.ERROR_MESSAGE);
+        } catch (RuntimeException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error inesperado", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception err) {
+            JOptionPane.showMessageDialog(null, "Ups a ocurrido un error inesperado contacte un administrador" + err.getMessage(), "Error inesperado", JOptionPane.ERROR_MESSAGE);
         }
-        
-        
+
+
     }//GEN-LAST:event_jbGuardarActionPerformed
 
     private void jbModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarActionPerformed
         try {
             Cliente cli = new Cliente();
+
+            if(validacionFinal()){
+                
+            throw new RuntimeException("Error al cargar los datos");
+            }
+            
+            
             
             cli.setApellido(jtApellido.getText());
             cli.setDireccion(jtDomicilio.getText());
@@ -361,8 +405,8 @@ public class crearCliente extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "El campo DNI debe ser un numero y no puede estar vacio ", "DNI invalido", JOptionPane.WARNING_MESSAGE);
             jtDni.setText("");
 
-        }catch(Exception err){
-            JOptionPane.showMessageDialog(null,"Ups a ocurrido un error inesperado contacte un administrador"+err.getMessage(),"Error inesperado",JOptionPane.ERROR_MESSAGE);
+        } catch (Exception err) {
+            JOptionPane.showMessageDialog(null, "Ups a ocurrido un error inesperado contacte un administrador" + err.getMessage(), "Error inesperado", JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_jbModificarActionPerformed
@@ -404,9 +448,37 @@ public class crearCliente extends javax.swing.JInternalFrame {
         jtContAlter.setText("");
         jtTelAlter.setText("");
         jtTelefono.setText("");
+        jtId.setText("");
 
         jrActivo.setSelected(true);
 
+    }
+    
+    private boolean validacionFinal() {
+
+        int longitudDni = jtDni.getText().length();
+        String nombre = jtNombre.getText();
+        String apellido = jtApellido.getText();
+        String domicilio = jtDomicilio.getText();
+        int longitudTelefono = jtTelefono.getText().length();
+        int longitudTelefonoAL = jtTelAlter.getText().length();
+        String nombreAlternativo = jtContAlter.getText();
+        boolean evaluarDatos = nombre.isEmpty() || apellido.isEmpty() || domicilio.isEmpty()
+                || nombreAlternativo.isEmpty() || !(longitudDni == 8) || longitudTelefono > 10
+                || longitudTelefonoAL > 10 || !comprobarValores(nombre) || !comprobarValores(apellido) || !comprobarValores(nombreAlternativo);
+
+        return evaluarDatos;
+
+    }
+
+    private <T> boolean comprobarValores(T valorAComprobar) {
+        boolean comprobacion = false;
+        if (valorAComprobar instanceof String) {
+            Pattern patronNombre = Pattern.compile("^[a-zA-Z ]+$");
+            Matcher matcher = patronNombre.matcher((String) valorAComprobar);
+            comprobacion = matcher.matches();
+        } 
+        return comprobacion;
     }
 
 }

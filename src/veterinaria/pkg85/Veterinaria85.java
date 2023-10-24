@@ -20,20 +20,19 @@ public class Veterinaria85 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        ClienteData cli = new ClienteData();
-        Cliente juan = new Cliente(10,"Marcos", 555123123, "Pérez", "Av. Ocampo 1111", 12121212, " Gabriel Pérez", 23232323, true);
-        System.out.println(juan.getIdCliente());
-        Mascota perro = new Mascota(7,"pochi","macho", "perro", "labrador", "blanco", 7, LocalDate.now(), juan, true);
-        
-        MascotaData mas=new MascotaData();
-       // cli.guardarCliente(juan);
-        mas.eliminar(perro.getIdMascota());
+//        ClienteData cli = new ClienteData();
+//        Cliente juan = new Cliente(10,"Marcos", 555123123, "Pérez", "Av. Ocampo 1111", 12121212, " Gabriel Pérez", 23232323, true);
+//        System.out.println(juan.getIdCliente());
+//        Mascota perro = new Mascota(7,"pochi","macho", "perro", "labrador", "blanco", 7, LocalDate.now(), juan, true);
+//        
+//        MascotaData mas=new MascotaData();
+//       // cli.guardarCliente(juan);
+//        mas.eliminar(perro.getIdMascota());
         //SELECT *, AVG (peso) FROM (SELECT * FROM visita WHERE idMascota=1 ORDER BY fechaVisita DESC LIMIT 10 ) AS promedio;
         
         
         
-        
-        
+       
         
         
         

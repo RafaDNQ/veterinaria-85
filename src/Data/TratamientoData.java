@@ -36,7 +36,7 @@ public class TratamientoData {
         try (PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
             ps.setString(1, trata.getTipoTratamiento());
             ps.setString(2, trata.getDescripcion());
-            ps.setDouble(3, trata.getInporte());
+            ps.setDouble(3, trata.getImporte());
             ps.setBoolean(4, trata.isActivo());
             ps.executeUpdate();
             try (ResultSet rs = ps.getGeneratedKeys();) {
@@ -61,7 +61,7 @@ public class TratamientoData {
         try (PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
             ps.setString(1, trata.getTipoTratamiento());
             ps.setString(2, trata.getDescripcion());
-            ps.setDouble(3, trata.getInporte());
+            ps.setDouble(3, trata.getImporte());
             ps.setBoolean(4, trata.isActivo());
             ps.setInt(5, trata.getIdTratamiento());
             int exito = ps.executeUpdate();
@@ -88,7 +88,7 @@ public class TratamientoData {
                 trata.setDescripcion(rs.getString("descripcion"));
                 trata.setActivo(rs.getBoolean("activo"));
                 trata.setIdTratamiento(rs.getInt("idTratamiento"));
-                trata.setInporte(rs.getDouble("importe"));
+                trata.setImporte(rs.getDouble("importe"));
 
             }
 
@@ -129,7 +129,7 @@ public class TratamientoData {
                trata.setDescripcion(rs.getString("descripcion"));
                trata.setIdTratamiento(rs.getInt("idTratamiento"));
                trata.setTipoTratamiento(rs.getString("tipoTratamiento"));
-               trata.setInporte(rs.getDouble("importe"));
+               trata.setImporte(rs.getDouble("importe"));
                tra.add(trata);
             }
         } catch (SQLException ex) {

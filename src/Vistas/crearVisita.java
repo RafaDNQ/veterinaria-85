@@ -270,7 +270,7 @@ public class crearVisita extends javax.swing.JFrame {
     }//GEN-LAST:event_jbCrearActionPerformed
 
     private void jcComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcComboActionPerformed
-        double tratamiento = ((Tratamiento) jcCombo.getSelectedItem()).getInporte();
+        double tratamiento = ((Tratamiento) jcCombo.getSelectedItem()).getImporte();
         jtMonto.setText(""+tratamiento);
         
     }//GEN-LAST:event_jcComboActionPerformed

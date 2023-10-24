@@ -51,11 +51,11 @@ public class Tratamiento {
         this.descripcion = descripcion;
     }
 
-    public double getInporte() {
+    public double getImporte() {
         return inporte;
     }
 
-    public void setInporte(double inporte) {
+    public void setImporte(double inporte) {
         this.inporte = inporte;
     }
 
