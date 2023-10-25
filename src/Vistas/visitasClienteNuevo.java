@@ -46,6 +46,7 @@ public class visitasClienteNuevo extends javax.swing.JFrame {
         jrInactivo = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Crear Cliente Nuevo");
 
         dni.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         dni.setText("DNI N°: ");

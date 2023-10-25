@@ -10,9 +10,10 @@ public class Visita {
     private double peso;
     private Tratamiento tratamiento;
     private LocalDate visita;
+    private boolean finalizado;
     private boolean activo;
 
-    public Visita(int idVisita, Mascota mascota, String detalle, double peso, Tratamiento tratamiento, LocalDate visita, boolean activo) {
+    public Visita(int idVisita, Mascota mascota, String detalle, double peso, Tratamiento tratamiento, LocalDate visita,boolean finalizado,boolean activo) {
         this.idVisita = idVisita;
         this.mascota = mascota;
         this.detalle = detalle;
@@ -20,15 +21,25 @@ public class Visita {
         this.tratamiento = tratamiento;
         this.visita = visita;
         this.activo = activo;
+        this.finalizado = finalizado;
     }
 
-    public Visita(Mascota mascota, String detalle, double peso, Tratamiento tratamiento, LocalDate visita, boolean activo) {
+    public Visita(Mascota mascota, String detalle, double peso, Tratamiento tratamiento, LocalDate visita,boolean finalizado ,boolean activo) {
         this.mascota = mascota;
         this.detalle = detalle;
         this.peso = peso;
         this.tratamiento = tratamiento;
         this.visita = visita;
         this.activo = activo;
+        this.finalizado = finalizado;
+    }
+
+    public boolean isFinalizado() {
+        return finalizado;
+    }
+
+    public void setFinalizado(boolean finalizado) {
+        this.finalizado = finalizado;
     }
 
     public Visita() {

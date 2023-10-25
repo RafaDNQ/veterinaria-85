@@ -39,7 +39,7 @@ public class VisitaData {
     }
 
     public void guardar(Visita visita) {
-        String sql = "INSERT INTO `visita`(`idMascota`, `detalle`, `peso`, `idTratamiento`, `fechaVisita`, `activo`) VALUES (?,?,?,?,?,?)";
+        String sql = "INSERT INTO `visita`(`idMascota`, `detalle`, `peso`, `idTratamiento`, `fechaVisita`, `activo`,finalizado) VALUES (?,?,?,?,?,?,?)";
 
         try (PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
 
@@ -49,6 +49,7 @@ public class VisitaData {
             ps.setInt(4, visita.getTratamiento().getIdTratamiento());
             ps.setDate(5, Date.valueOf(visita.getVisita()));
             ps.setBoolean(6, visita.isActivo());
+            ps.setBoolean(7, visita.isFinalizado());
             ps.executeUpdate();
             try (ResultSet rs = ps.getGeneratedKeys();) {
                 if (rs.next()) {
@@ -67,7 +68,7 @@ public class VisitaData {
 
     public void modificar(Visita visita) {
 
-        String sql = "UPDATE `visita` SET `idMascota`=?,`detalle`=?,`peso`=?,`idTratamiento`=?,`fechaVisita`=?,`activo`=? WHERE idVisita = ?";
+        String sql = "UPDATE `visita` SET `idMascota`=?,`detalle`=?,`peso`=?,`idTratamiento`=?,`fechaVisita`=?,`activo`=?,finalizado=? WHERE idVisita = ?";
 
         try (PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
 
@@ -77,7 +78,9 @@ public class VisitaData {
             ps.setInt(4, visita.getTratamiento().getIdTratamiento());
             ps.setDate(5, Date.valueOf(visita.getVisita()));
             ps.setBoolean(6, visita.isActivo());
+            ps.setBoolean(8, visita.isFinalizado());
             ps.setInt(7, visita.getIdVisita());
+           
             int exito = ps.executeUpdate();
             if (exito == 1) {
                 JOptionPane.showMessageDialog(null, "visita modificada");
@@ -109,7 +112,7 @@ public class VisitaData {
 
     public ArrayList<Visita> buscarVIDMa(int id) {
         ArrayList<Visita> listavisita = new ArrayList<>();
-        String sql = "SELECT * FROM `visita` WHERE idMascota=?  ORDER BY fechaVisita DESC;";
+        String sql = "SELECT * FROM `visita` WHERE idMascota=? AND activo=1  ORDER BY fechaVisita DESC;";
         Visita visita = null;
         Tratamiento tra = null;
 
@@ -133,6 +136,7 @@ public class VisitaData {
                     visita.setPeso(rs.getDouble("peso"));
                     visita.setTratamiento(tra);
                     visita.setVisita(rs.getDate("fechaVisita").toLocalDate());
+                    visita.setFinalizado(rs.getBoolean("finalizado"));
                     listavisita.add(visita);
 
                 }
@@ -175,6 +179,7 @@ public class VisitaData {
                     visita.setPeso(rs.getDouble("peso"));
                     visita.setTratamiento(tra);
                     visita.setVisita(rs.getDate("fechaVisita").toLocalDate());
+                    visita.setFinalizado(rs.getBoolean("finalizado"));
                     listavisita.add(visita);
 
                 }
@@ -196,7 +201,7 @@ public class VisitaData {
     public Double promedioVisitas(int id) {
         double pesoPromedio = 0.0;
         Mascota mascota = datamascota.buscarMascotaid(id);
-        String sql = "SELECT AVG (peso) FROM (SELECT peso FROM visita WHERE idMascota=? ORDER BY fechaVisita DESC LIMIT 10 ) AS promedio;";
+        String sql = "SELECT AVG (peso) FROM (SELECT peso FROM visita WHERE idMascota=? AND activo=1 ORDER BY fechaVisita DESC LIMIT 10 ) AS promedio;";
         try (PreparedStatement ps = con.prepareStatement(sql);) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();

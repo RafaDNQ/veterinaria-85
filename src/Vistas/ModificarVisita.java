@@ -14,19 +14,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.ButtonGroup;
 
-
 /**
  *
  * @author Usuario
  */
-public class crearVisita extends javax.swing.JFrame {
-    MascotaData masdata = new MascotaData();
+public class ModificarVisita extends javax.swing.JFrame {
+
+   MascotaData masdata = new MascotaData();
     TratamientoData tradata = new TratamientoData();
     VisitaData vidata = new VisitaData();
-    
-
     int idMascota = vistasVisita.getterId();
-    public crearVisita() {
+    int idVisita = listaVisita.idvisitaselecionada();
+    
+    public ModificarVisita() {
         initComponents();
         cargarcombo();
        jtAlias.setText(masdata.buscarMascotaid(idMascota).getAlias());
@@ -39,7 +39,6 @@ public class crearVisita extends javax.swing.JFrame {
         ButtonGroup a = new ButtonGroup();
         a.add(jrNo);
         a.add(jrSi);
-       
     }
 
     /**
@@ -63,7 +62,7 @@ public class crearVisita extends javax.swing.JFrame {
         jcCombo = new javax.swing.JComboBox<>();
         jtPeso = new javax.swing.JTextField();
         jdDia = new com.toedter.calendar.JDateChooser();
-        jbCrear = new javax.swing.JButton();
+        jbModificar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jtMonto = new javax.swing.JTextField();
@@ -77,7 +76,6 @@ public class crearVisita extends javax.swing.JFrame {
         jrNo = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Crear Visita");
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel1.setText("Alias: ");
@@ -110,11 +108,11 @@ public class crearVisita extends javax.swing.JFrame {
 
         jtPeso.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
 
-        jbCrear.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jbCrear.setText("Crear");
-        jbCrear.addActionListener(new java.awt.event.ActionListener() {
+        jbModificar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jbModificar.setText("Modificar");
+        jbModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbCrearActionPerformed(evt);
+                jbModificarActionPerformed(evt);
             }
         });
 
@@ -221,8 +219,8 @@ public class crearVisita extends javax.swing.JFrame {
                         .addComponent(jrNo)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
-                        .addComponent(jbCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jbModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(40, 40, 40))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
@@ -236,7 +234,7 @@ public class crearVisita extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jtAlias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbCrear))
+                    .addComponent(jbModificar))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -280,8 +278,14 @@ public class crearVisita extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jbCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCrearActionPerformed
-       
+    private void jcComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcComboActionPerformed
+        double tratamiento = ((Tratamiento) jcCombo.getSelectedItem()).getImporte();
+        jtMonto.setText(""+tratamiento);
+
+    }//GEN-LAST:event_jcComboActionPerformed
+
+    private void jbModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarActionPerformed
+
         Visita vi = new Visita();
         ///////
         int idT = ((Tratamiento)jcCombo.getSelectedItem()).getIdTratamiento();
@@ -293,16 +297,10 @@ public class crearVisita extends javax.swing.JFrame {
         vi.setVisita(jdDia.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
         vi.setFinalizado(jrSi.isSelected());
         System.out.println(vi);
-        vidata.guardar(vi);
+        vidata.modificar(vi);
         this.dispose();
-        
-    }//GEN-LAST:event_jbCrearActionPerformed
 
-    private void jcComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcComboActionPerformed
-        double tratamiento = ((Tratamiento) jcCombo.getSelectedItem()).getImporte();
-        jtMonto.setText(""+tratamiento);
-        
-    }//GEN-LAST:event_jcComboActionPerformed
+    }//GEN-LAST:event_jbModificarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -321,20 +319,20 @@ public class crearVisita extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(crearVisita.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarVisita.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(crearVisita.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarVisita.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(crearVisita.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarVisita.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(crearVisita.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ModificarVisita.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new crearVisita().setVisible(true);
+                new ModificarVisita().setVisible(true);
             }
         });
     }
@@ -355,7 +353,7 @@ public class crearVisita extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton jbCrear;
+    private javax.swing.JButton jbModificar;
     private javax.swing.JComboBox<Tratamiento> jcCombo;
     private com.toedter.calendar.JDateChooser jdDia;
     private javax.swing.JRadioButton jrNo;
@@ -365,9 +363,7 @@ public class crearVisita extends javax.swing.JFrame {
     private javax.swing.JTextField jtMonto;
     private javax.swing.JTextField jtPeso;
     // End of variables declaration//GEN-END:variables
-
-
-    private void cargarcombo() {
+private void cargarcombo() {
         ArrayList<Tratamiento> tra = tradata.ListaTrata();
         
         if (tra != null) {
@@ -377,5 +373,9 @@ public class crearVisita extends javax.swing.JFrame {
 
         }
     }
+private void cargardatos(){
 
+   
+
+}
 }

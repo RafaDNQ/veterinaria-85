@@ -73,7 +73,7 @@ public class ClienteData {
             cliente.setNombreAl(rs.getString("nombreAlternativo"));
             cliente.setTelefonoAl(rs.getInt("contactoAlternativo"));
             cliente.setActivo(rs.getBoolean("activo"));  
-            JOptionPane.showMessageDialog(null, "cliente Guardado :V");
+            //JOptionPane.showMessageDialog(null, "cliente Guardado :V");
             
             }
 //            else{
@@ -109,7 +109,7 @@ public class ClienteData {
             cliente.setNombreAl(rs.getString("nombreAlternativo"));
             cliente.setTelefonoAl(rs.getInt("contactoAlternativo"));
             cliente.setActivo(rs.getBoolean("activo"));
-            JOptionPane.showMessageDialog(null, "cliente encontrado :V");
+            //JOptionPane.showMessageDialog(null, "cliente encontrado :V");
             
             }
             else{

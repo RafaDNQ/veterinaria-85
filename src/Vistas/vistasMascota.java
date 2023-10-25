@@ -372,12 +372,11 @@ public class vistasMascota extends javax.swing.JInternalFrame {
             masdata.guardarMascota(mas);
             jbGuardar.setEnabled(false);
 
-        }else {
+        } else {
             int opc = JOptionPane.showConfirmDialog(null, "el Cliente no existe desea crear uno nuevo? Y/N", "Confirmacion", JOptionPane.YES_NO_CANCEL_OPTION);
             if (opc == 0) {
                 visitasClienteNuevo ventana = new visitasClienteNuevo();
                 ventana.setVisible(true);
-                
 
                 ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             } else {
@@ -406,7 +405,6 @@ public class vistasMascota extends javax.swing.JInternalFrame {
             if (opc == 0) {
                 visitasClienteNuevo ventana = new visitasClienteNuevo();
                 ventana.setVisible(true);
-                
 
                 ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             } else {
@@ -448,20 +446,23 @@ public class vistasMascota extends javax.swing.JInternalFrame {
 
         Mascota mas = new Mascota();
         Cliente cli = clidata.buscarDni(Integer.valueOf(jtDniC.getText()));
-        mas.setAlias(jtAlias.getText());
-        mas.setColorPelo(jtColor.getText());
-        mas.setEspecie(jtEspecie.getText());
-        LocalDate fecha = jdFechaN.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        mas.setFechaN(fecha);
-        mas.setPesoPromedio(Double.valueOf(jtPesoPromedio.getText()));
-        mas.setRaza(jtRaza.getText());
-        mas.setSexo(jtSexo.getText());
-        mas.setCliente(cli);
-        mas.setActivo(jrActivo.isSelected());
+        int idm = Integer.parseInt(jtIdM.getText());
+        if (cli != null && idm > 0) {
+            mas.setIdMascota(idm);
+            mas.setAlias(jtAlias.getText());
+            mas.setColorPelo(jtColor.getText());
+            mas.setEspecie(jtEspecie.getText());
+            LocalDate fecha = jdFechaN.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            mas.setFechaN(fecha);
+            mas.setPesoPromedio(Double.valueOf(jtPesoPromedio.getText()));
+            mas.setRaza(jtRaza.getText());
+            mas.setSexo(jtSexo.getText());
+            mas.setCliente(cli);
+            mas.setActivo(jrActivo.isSelected());
 
-        masdata.modificar(mas);
+            masdata.modificar(mas);
 
-
+        }
     }//GEN-LAST:event_jbModificarActionPerformed
 
 
@@ -513,7 +514,5 @@ private void limpiarCampos() {
         jrActivo.setSelected(true);
 
     }
-
-   
 
 }
