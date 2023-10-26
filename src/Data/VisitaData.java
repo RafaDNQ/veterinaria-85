@@ -216,4 +216,44 @@ public class VisitaData {
         return pesoPromedio;
     }
 
+    public Visita buscarVisitaID(int id){
+    
+        Visita visita = null;
+        Mascota mascota = null;
+        Tratamiento tratamiento=null;
+        
+        String sql = "SELECT * FROM `visita` WHERE idVisita=?;";
+        try (PreparedStatement ps = con.prepareStatement(sql);) {
+         ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+            visita = new Visita();
+            mascota=new Mascota();
+            tratamiento=new Tratamiento();
+            mascota.setIdMascota(rs.getInt("idMascota"));
+            tratamiento.setIdTratamiento(rs.getInt("idTratamiento"));
+            
+            visita.setActivo(rs.getBoolean("activo"));
+            visita.setDetalle(rs.getString("detalle"));
+            visita.setFinalizado(rs.getBoolean("finalizado"));
+            visita.setIdVisita(id);
+            visita.setMascota(mascota);
+            visita.setPeso(rs.getDouble("peso"));
+            visita.setTratamiento(tratamiento);
+            visita.setVisita(rs.getDate("fechaVisita").toLocalDate());
+            
+            
+            
+            }
+        
+        } catch (SQLException ex) {
+            Logger.getLogger(VisitaData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    return visita;
+    }
+    
+    
+    
+    
 }

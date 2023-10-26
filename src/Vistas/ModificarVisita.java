@@ -7,6 +7,7 @@ package Vistas;
 import Data.MascotaData;
 import Data.TratamientoData;
 import Data.VisitaData;
+import Entidades.Mascota;
 import Entidades.Tratamiento;
 import Entidades.Visita;
 import java.time.ZoneId;
@@ -20,25 +21,27 @@ import javax.swing.ButtonGroup;
  */
 public class ModificarVisita extends javax.swing.JFrame {
 
-   MascotaData masdata = new MascotaData();
+    MascotaData masdata = new MascotaData();
     TratamientoData tradata = new TratamientoData();
     VisitaData vidata = new VisitaData();
     int idMascota = vistasVisita.getterId();
     int idVisita = listaVisita.idvisitaselecionada();
-    
+
     public ModificarVisita() {
         initComponents();
         cargarcombo();
-       jtAlias.setText(masdata.buscarMascotaid(idMascota).getAlias());
-       ButtonGroup b = new ButtonGroup();
-       b.add(jRadioButton1);
-       b.add(jRadioButton2);
-       b.add(jRadioButton3);
-       b.add(jRadioButton4);
-       jRadioButton1.setSelected(true);
+        jtAlias.setText(masdata.buscarMascotaid(idMascota).getAlias());
+        ButtonGroup b = new ButtonGroup();
+        b.add(jRadioButton1);
+        b.add(jRadioButton2);
+        b.add(jRadioButton3);
+        b.add(jRadioButton4);
+        jRadioButton1.setSelected(true);
         ButtonGroup a = new ButtonGroup();
         a.add(jrNo);
         a.add(jrSi);
+        jrSi.setSelected(true);
+        cargardatos();
     }
 
     /**
@@ -201,7 +204,7 @@ public class ModificarVisita extends javax.swing.JFrame {
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                             .addComponent(jLabel5)
                             .addGap(39, 39, 39)
-                            .addComponent(jdDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jdDia, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -270,9 +273,7 @@ public class ModificarVisita extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -280,7 +281,8 @@ public class ModificarVisita extends javax.swing.JFrame {
 
     private void jcComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcComboActionPerformed
         double tratamiento = ((Tratamiento) jcCombo.getSelectedItem()).getImporte();
-        jtMonto.setText(""+tratamiento);
+        jtMonto.setText("" + tratamiento);
+
 
     }//GEN-LAST:event_jcComboActionPerformed
 
@@ -288,7 +290,7 @@ public class ModificarVisita extends javax.swing.JFrame {
 
         Visita vi = new Visita();
         ///////
-        int idT = ((Tratamiento)jcCombo.getSelectedItem()).getIdTratamiento();
+        int idT = ((Tratamiento) jcCombo.getSelectedItem()).getIdTratamiento();
         vi.setMascota(masdata.buscarMascotaid(idMascota));
         vi.setDetalle(jtDetalle.getText());
         vi.setTratamiento(tradata.buscar(idT));
@@ -365,17 +367,45 @@ public class ModificarVisita extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 private void cargarcombo() {
         ArrayList<Tratamiento> tra = tradata.ListaTrata();
-        
+
         if (tra != null) {
             for (Tratamiento m : tra) {
                 jcCombo.addItem(m);
+
             }
 
         }
     }
-private void cargardatos(){
 
-   
+    private void cargardatos() {
 
-}
+        Visita vi = vidata.buscarVisitaID(idVisita);
+        Mascota mas = masdata.buscarMascotaid(vi.getMascota().getIdMascota());
+        Tratamiento ta = tradata.buscar(vi.getTratamiento().getIdTratamiento());
+        Date dia = java.sql.Date.valueOf(vi.getVisita());
+        jtAlias.setText(mas.getAlias());
+        jtPeso.setText("" + vi.getPeso());
+        jdDia.setDate(dia);
+        jtDetalle.setText(vi.getDetalle());
+        if (vi.isFinalizado()) {
+            jrSi.setSelected(true);
+        } else {
+            jrNo.setSelected(true);
+        }
+
+        int indice=indexTratamiento(ta.getTipoTratamiento());
+        System.out.println(indice);
+        jcCombo.setSelectedIndex(indice);
+
+    }
+    private int indexTratamiento(String tratamiento){
+        int index=0;
+        for(int i=0;i<jcCombo.getItemCount();i++){
+            Tratamiento tra=(Tratamiento)jcCombo.getItemAt(i);
+            if(tratamiento.equals(tra.getTipoTratamiento())){
+                index=i;
+            }
+        }
+        return index;
+    }
 }
