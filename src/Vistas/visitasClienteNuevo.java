@@ -6,6 +6,8 @@ package Vistas;
 
 import Data.ClienteData;
 import Entidades.Cliente;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 /**
@@ -15,13 +17,12 @@ import javax.swing.JOptionPane;
 public class visitasClienteNuevo extends javax.swing.JFrame {
 
     ClienteData clientedata = new ClienteData();
-    
+
     public visitasClienteNuevo() {
         initComponents();
-      
+
     }
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -96,7 +97,7 @@ public class visitasClienteNuevo extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(262, 262, 262)
                 .addComponent(jbGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(272, Short.MAX_VALUE))
+                .addContainerGap(284, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(33, 33, 33)
@@ -139,7 +140,7 @@ public class visitasClienteNuevo extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(398, Short.MAX_VALUE)
+                .addContainerGap(418, Short.MAX_VALUE)
                 .addComponent(jbGuardar)
                 .addGap(53, 53, 53))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -183,17 +184,11 @@ public class visitasClienteNuevo extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -205,24 +200,28 @@ public class visitasClienteNuevo extends javax.swing.JFrame {
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
         try {
-          
+            int dni = Integer.parseInt(jtDni.getText());
+            if (comprobarValores()) {
+                throw new RuntimeException();
+
+            }
             Cliente cli = new Cliente();
             cli.setActivo(true);
             cli.setApellido(jtApellido.getText());
             cli.setDireccion(jtDomicilio.getText());
-            cli.setDni(Integer.parseInt(jtDni.getText()));
+            cli.setDni(dni);
             cli.setNombre(jtNombre.getText());
             cli.setNombreAl(jtContAlter.getText());
             cli.setTelefono(Integer.parseInt(jtTelefono.getText()));
             cli.setTelefonoAl(Integer.parseInt(jtTelAlter.getText()));
             clientedata.guardarCliente(cli);
+            JOptionPane.showMessageDialog(null, "Cliente creado", "Creacion", JOptionPane.INFORMATION_MESSAGE);
             this.dispose();
         } catch (NumberFormatException err) {
             JOptionPane.showMessageDialog(this, "El campo DNI debe ser un numero y no puede estar vacio ", "DNI invalido", JOptionPane.WARNING_MESSAGE);
-            jtDni.setText("");
 
-        }catch(Exception err){
-            JOptionPane.showMessageDialog(null,"Ups a ocurrido un error inesperado contacte un administrador"+err.getMessage(),"Error inesperado",JOptionPane.ERROR_MESSAGE);
+        } catch (Exception err) {
+            JOptionPane.showMessageDialog(null, "Ups a ocurrido un error inesperado contacte un administrador" + err.getMessage(), "Error inesperado", JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_jbGuardarActionPerformed
@@ -263,6 +262,32 @@ public class visitasClienteNuevo extends javax.swing.JFrame {
         });
     }
 
+    private boolean comprobarValores() {
+
+        int longitudDni = jtDni.getText().length();
+        String nombre = jtNombre.getText();
+        String apellido = jtApellido.getText();
+        String domicilio = jtDomicilio.getText();
+        int longitudTelefono = jtTelefono.getText().length();
+        int longitudTelefonoAL = jtTelAlter.getText().length();
+        String nombreAlternativo = jtContAlter.getText();
+        boolean evaluarDatos = nombre.isEmpty() || apellido.isEmpty() || domicilio.isEmpty()
+                || nombreAlternativo.isEmpty() || !(longitudDni == 8) || longitudTelefono > 10
+                || longitudTelefonoAL > 10 || !comprobarValores(nombre) || !comprobarValores(apellido) || !comprobarValores(nombreAlternativo);
+
+        return evaluarDatos;
+    }
+
+    private <T> boolean comprobarValores(T valorAComprobar) {
+        boolean comprobacion = false;
+        if (valorAComprobar instanceof String) {
+            Pattern patronNombre = Pattern.compile("^[a-zA-Z ]+$");
+            Matcher matcher = patronNombre.matcher((String) valorAComprobar);
+            comprobacion = matcher.matches();
+        }
+        return comprobacion;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Apellido;
     private javax.swing.JLabel Nombre;
@@ -283,7 +308,5 @@ public class visitasClienteNuevo extends javax.swing.JFrame {
     private javax.swing.JTextField jtTelAlter;
     private javax.swing.JTextField jtTelefono;
     // End of variables declaration//GEN-END:variables
-
-   
 
 }

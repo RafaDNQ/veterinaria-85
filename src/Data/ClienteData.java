@@ -41,7 +41,7 @@ public class ClienteData {
                 if (rs.next()) {
 
                     cliente.setIdCliente(rs.getInt(1));
-                    JOptionPane.showMessageDialog(null, "Alumno Guardado :)");
+                    
                 }
             }
 

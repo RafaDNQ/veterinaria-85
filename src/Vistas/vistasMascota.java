@@ -14,6 +14,8 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -360,33 +362,61 @@ public class vistasMascota extends javax.swing.JInternalFrame {
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
 
-        Mascota mas = new Mascota();
-        Cliente cli = clidata.buscarDni(Integer.valueOf(jtDniC.getText()));
-        if (cli != null) {
+        try {
+            int dni = Integer.valueOf(jtDniC.getText());
+            String alias = jtAlias.getText();
+            String colorPelo = jtColor.getText();
+            String especies = jtEspecie.getText();
+            String sexo = jtSexo.getText();
+            String razaS = jtRaza.getText();
+            String dniLongitud = jtDniC.getText();
+            LocalDate fecha2 = jdFechaN.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            double promedios = Double.parseDouble(jtPesoPromedio.getText());
 
-            mas.setAlias(jtAlias.getText());
-            mas.setColorPelo(jtColor.getText());
-            mas.setEspecie(jtEspecie.getText());
-            LocalDate fecha = jdFechaN.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            mas.setFechaN(fecha);
-            mas.setPesoPromedio(Double.valueOf(jtPesoPromedio.getText()));
-            mas.setRaza(jtRaza.getText());
-            mas.setSexo(jtSexo.getText());
-            mas.setCliente(cli);
-            mas.setActivo(jrActivo.isSelected());
-            masdata.guardarMascota(mas);
-            jbGuardar.setEnabled(false);
+            boolean condicion = alias.isEmpty() || colorPelo.isEmpty() || especies.isEmpty() || sexo.isEmpty() || razaS.isEmpty()
+                    || promedios < 0 || !comprobarValores(alias) || !comprobarValores(colorPelo) || !comprobarValores(especies)
+                    || !comprobarValores(sexo) || !comprobarValores(razaS) || dniLongitud.length() != 8;
+            Mascota mas = new Mascota();
 
-        } else {
-            int opc = JOptionPane.showConfirmDialog(null, "el Cliente no existe desea crear uno nuevo? Y/N", "Confirmacion", JOptionPane.YES_NO_CANCEL_OPTION);
-            if (opc == 0) {
-                visitasClienteNuevo ventana = new visitasClienteNuevo();
-                ventana.setVisible(true);
+            Cliente cli = clidata.buscarDni(dni);
+            if (cli != null) {
 
-                ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                if (condicion) {
+                    throw new RuntimeException("ups datos vacios o invalidos");
+                }
+
+                mas.setAlias(alias);
+                mas.setColorPelo(colorPelo);
+                mas.setEspecie(especies);
+                //LocalDate fecha = jdFechaN.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                mas.setFechaN(fecha2);
+                mas.setPesoPromedio(promedios);
+                mas.setRaza(razaS);
+                mas.setSexo(sexo);
+                mas.setCliente(cli);
+                mas.setActivo(jrActivo.isSelected());
+                masdata.guardarMascota(mas);
+                jbGuardar.setEnabled(false);
+
             } else {
-                limpiarCampos();
+                int opc = JOptionPane.showConfirmDialog(null, "el Cliente no existe desea crear uno nuevo? Y/N", "Confirmacion", JOptionPane.YES_NO_CANCEL_OPTION);
+                if (opc == 0) {
+                    visitasClienteNuevo ventana = new visitasClienteNuevo();
+                    ventana.setVisible(true);
+
+                    ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                } else {
+                    limpiarCampos();
+                }
             }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "No ha ingresado un un numero" + e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
+
+        } catch (RuntimeException e) {
+
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
+
         }
 
 
@@ -394,27 +424,34 @@ public class vistasMascota extends javax.swing.JInternalFrame {
 
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
 
-        if (jcAlias.getItemCount() > 0) {
-            jcAlias.removeAllItems();
-        }
-        int dni = Integer.parseInt(jtDniC.getText());
-        Cliente cli = clidata.buscarDni(dni);
-        if (cli != null) {
-            jtIdc.setText("" + cli.getIdCliente());
-            cargarcombo();
-            jbGuardar.setEnabled(true);
-            jbEliminar.setEnabled(true);
-            jbModificar.setEnabled(true);
-        } else {
-            int opc = JOptionPane.showConfirmDialog(null, "el Cliente no existe desea crear uno nuevo? Y/N", "Confirmacion", JOptionPane.YES_NO_CANCEL_OPTION);
-            if (opc == 0) {
-                visitasClienteNuevo ventana = new visitasClienteNuevo();
-                ventana.setVisible(true);
+        try {
 
-                ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            } else {
-                limpiarCampos();
+            if (jcAlias.getItemCount() > 0) {
+                jcAlias.removeAllItems();
             }
+            int dni = Integer.parseInt(jtDniC.getText());
+            Cliente cli = clidata.buscarDni(dni);
+            if (cli != null) {
+                jtIdc.setText("" + cli.getIdCliente());
+                cargarcombo();
+                jbGuardar.setEnabled(true);
+                jbEliminar.setEnabled(true);
+                jbModificar.setEnabled(true);
+            } else {
+                int opc = JOptionPane.showConfirmDialog(null, "el Cliente no existe desea crear uno nuevo? Y/N", "Confirmacion", JOptionPane.YES_NO_CANCEL_OPTION);
+                if (opc == 0) {
+                    visitasClienteNuevo ventana = new visitasClienteNuevo();
+                    ventana.setVisible(true);
+
+                    ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                } else {
+                    limpiarCampos();
+                }
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Advertencia debe ingresar un numero", "Advertencia", JOptionPane.WARNING_MESSAGE);
+
         }
 
 
@@ -449,10 +486,24 @@ public class vistasMascota extends javax.swing.JInternalFrame {
 
     private void jbModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarActionPerformed
 
+        
+        try{
+        
+        
+        
+        
         Mascota mas = new Mascota();
         Cliente cli = clidata.buscarDni(Integer.valueOf(jtDniC.getText()));
         int idm = Integer.parseInt(jtIdM.getText());
         if (cli != null && idm > 0) {
+            
+            boolean val =validarDatos();
+            System.out.println(val);
+            if(val){
+                
+                throw new RuntimeException("");
+                
+            }
             mas.setIdMascota(idm);
             mas.setAlias(jtAlias.getText());
             mas.setColorPelo(jtColor.getText());
@@ -467,7 +518,27 @@ public class vistasMascota extends javax.swing.JInternalFrame {
 
             masdata.modificar(mas);
 
+        }else{
+            
+            JOptionPane.showMessageDialog(null,"EL cliente no existe o su id busquelo porfavor","Mensaje",JOptionPane.INFORMATION_MESSAGE);
         }
+ 
+        
+        }catch(NumberFormatException e){
+            
+            JOptionPane.showMessageDialog(null,"El dni no debe estar vacio","Mensaje",JOptionPane.INFORMATION_MESSAGE);
+            
+        }catch(RuntimeException e){
+            
+            JOptionPane.showMessageDialog(null,"los datos que intenta modificar no son validos","Mensaje",JOptionPane.WARNING_MESSAGE);
+            
+        }
+        
+        
+        
+        
+        
+        
     }//GEN-LAST:event_jbModificarActionPerformed
 
 
@@ -520,4 +591,33 @@ private void limpiarCampos() {
 
     }
 
+    private <T> boolean comprobarValores(T valorAComprobar) {
+        boolean comprobacion = false;
+        if (valorAComprobar instanceof String) {
+            Pattern patronNombre = Pattern.compile("^[a-zA-Z ]+$");
+            Matcher matcher = patronNombre.matcher((String) valorAComprobar);
+            comprobacion = matcher.matches();
+        }
+        return comprobacion;
+    }
+
+    private boolean validarDatos() {
+
+        int dni = Integer.valueOf(jtDniC.getText());
+        String alias = jtAlias.getText();
+        String colorPelo = jtColor.getText();
+        String especies = jtEspecie.getText();
+        String sexo = jtSexo.getText();
+        String razaS = jtRaza.getText();
+        String dniLongitud = jtDniC.getText();
+        LocalDate fecha2 = jdFechaN.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        double promedios = Double.parseDouble(jtPesoPromedio.getText());
+
+        boolean condicion = alias.isEmpty() || colorPelo.isEmpty() || especies.isEmpty() || sexo.isEmpty() || razaS.isEmpty()
+                || promedios < 0 || !comprobarValores(alias) || !comprobarValores(colorPelo) || !comprobarValores(especies)
+                || !comprobarValores(sexo) || !comprobarValores(razaS) || dniLongitud.length() != 8 || fecha2==null;
+        Mascota mas = new Mascota();
+
+        return condicion;
+    }
 }
